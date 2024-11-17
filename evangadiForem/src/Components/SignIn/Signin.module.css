@@ -1,0 +1,98 @@
+.main_container{
+ width: 80%;
+ margin: 50px auto;
+
+
+}
+
+.left{
+    box-shadow: 0px 0px 10px rgba(0,0,0,.6);
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+ justify-content: center;
+ text-align: center;
+gap: 10px;
+padding-bottom: 100px;
+
+
+}
+.left .signin_btn{
+    background-color:blue;
+    color: white;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 30px;
+}
+.left .forgot_pass{
+   float: right;
+   cursor: pointer;
+}
+.left.forgot_pass small:hover{
+    color: var(--primary-color);
+}
+.password{
+    position: relative;
+}
+span{
+    color: var(--primary-color);
+}
+.eye_icon{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.right{
+    margin-left: 30px;
+}
+.right h1{
+    
+}
+.account_btn{
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}
+
+.redirect_text{
+    cursor: pointer;
+}
+
+.animate,.animated{
+ animation:  animate .5s ease-in;
+ transition: transform .5s ease-in;
+}
+.animated{
+    animation:  animated .5s ease-in-out;
+ transition: transform .5s ease-in; 
+}
+.main_container input{
+    outline: none;
+}
+@keyframes animate{
+   from{
+    transform: translateX(-300px);
+    opacity: 0;
+   }
+   to{
+    transform: translateX(0px);
+    opacity: 1;
+   }
+}
+@keyframes animated{
+   from{
+    transform: translateX(-300px);
+    opacity: 0;
+   }
+   to{
+    transform: translateX(0px);
+    opacity: 1;
+   }
+}
