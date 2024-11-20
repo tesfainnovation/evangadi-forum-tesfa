@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styles from "./Signin.module.css";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signin({ title }) {
+  const navigate = useNavigate();
   const [showpass, setShowPass] = useState(false);
   const [login, setLogin] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
@@ -15,6 +16,9 @@ export default function Signin({ title }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [color, setColor] = useState("gray");
+  const [errColor, setErrColor] = useState("gray");
+  const [text, setText] = useState("");
+  const [errText, setErrorText] = useState("");
 
   const handleChangeLogin = () => {
     setLogin((prev) => !prev);
@@ -23,8 +27,23 @@ export default function Signin({ title }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (user || name || fname || email || pass == "") {
+    if (!email || !pass) {
       setColor("red");
+      setText("All Fields Are Required");
+    } else {
+      setColor("green");
+      setText("");
+    }
+  };
+  const handeleCreateAccount = (e) => {
+    e.preventDefault(e);
+    if (!user || !name || !fname || !email || !pass) {
+      setErrColor("red");
+      setErrorText("All fields are required.");
+    } else {
+      setErrColor("green");
+      setErrorText("");
+      navigate("/home");
     }
   };
   return (
@@ -34,13 +53,22 @@ export default function Signin({ title }) {
           <div className={`col-md  ${styles.left} `}>
             <div className={`${isClicked ? styles.animate : styles.animated}`}>
               <h5>{login ? "Login into Your Account " : "Join the Network"}</h5>
+              {login ? (
+                <p className="text-danger fw-3">{text}</p>
+              ) : (
+                <p className="text-danger fw-3">{errText}</p>
+              )}
               <p className={styles.redirect_text}>
                 {login ? "Don’t have an account? " : "Already have account?"}
                 <span onClick={handleChangeLogin}>
                   {login ? " Create a new account  " : " Sign in"}
                 </span>
               </p>
-              <form onSubmit={handleLogin}>
+              <form
+                action="http://localhost:3000/rejester"
+                method="POST"
+                onSubmit={login ? handleLogin : handeleCreateAccount}
+              >
                 {!login && (
                   <div>
                     <div>
@@ -51,8 +79,9 @@ export default function Signin({ title }) {
                         id="user"
                         placeholder="userName"
                         value={user}
+                        name="user"
                         onChange={(e) => setUser(e.target.value)}
-                        style={{ border: "1px solid red" }}
+                        style={{ border: `1px solid ${errColor}` }}
                       />
                     </div>
                     <div className="form-group row">
@@ -64,7 +93,9 @@ export default function Signin({ title }) {
                           id="fname"
                           placeholder="First Name"
                           value={name}
+                          name="fname"
                           onChange={(e) => setName(e.target.value)}
+                          style={{ border: `1px solid ${errColor}` }}
                         />
                       </div>
                       <div className="col-md">
@@ -75,7 +106,9 @@ export default function Signin({ title }) {
                           id="lname"
                           placeholder="Last Name"
                           value={fname}
+                          name="lname"
                           onChange={(e) => setFname(e.target.value)}
+                          style={{ border: `1px solid ${errColor}` }}
                         />
                       </div>
                     </div>
@@ -89,7 +122,9 @@ export default function Signin({ title }) {
                     id="email"
                     placeholder="Email"
                     value={email}
+                    name="email"
                     onChange={(e) => setEmail(e.target.value)}
+                    style={{ border: `1px solid ${login ? color : errColor}` }}
                   />
                 </div>
                 <div className={`form-group ${styles.password}`}>
@@ -100,7 +135,9 @@ export default function Signin({ title }) {
                     id="pwd"
                     placeholder="Password"
                     value={pass}
+                    name="pass"
                     onChange={(e) => setPass(e.target.value)}
+                    style={{ border: `1px solid ${login ? color : errColor}` }}
                   />
                   <div
                     className={styles.eye_icon}
