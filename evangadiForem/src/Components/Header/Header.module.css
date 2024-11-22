@@ -15,6 +15,7 @@
     justify-content: space-between;
     width: 80%;
     margin: 10px auto;
+    align-items: center;
 }
 
 .left_menu ul{
@@ -26,15 +27,22 @@
 .left_menu ul li a:hover{
     color: var(--primary-color);
 }
+.header_logo{
+
+    padding-bottom: 10px;
+}
 .left_menu ul button{
   border: none;
-  background-color:var(--primary-color);
-  padding: 9px 20px;
+  background-color:var(--button-color);
+  padding: 7px 20px;
   border-radius: 10px;
   color: white;  
   cursor: pointer;
   opacity: 0.7;
   
+}
+.logout{
+    background-color: var(--button-color);
 }
 .left_menu ul button:hover{
     opacity: 1;

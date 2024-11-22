@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./Signin.module.css";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../../axios";
+import { toast } from "react-toastify";
 
 export default function Signin({ title }) {
   const navigate = useNavigate();
@@ -11,8 +13,8 @@ export default function Signin({ title }) {
   const [isClicked, setIsClicked] = useState(false);
   const [user, setUser] = useState("");
 
-  const [name, setName] = useState("");
   const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [color, setColor] = useState("gray");
@@ -25,27 +27,56 @@ export default function Signin({ title }) {
     setIsClicked((prev) => !prev);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !pass) {
       setColor("red");
       setText("All Fields Are Required");
-    } else {
-      setColor("green");
-      setText("");
+      return;
     }
-  };
-  const handeleCreateAccount = (e) => {
-    e.preventDefault(e);
-    if (!user || !name || !fname || !email || !pass) {
-      setErrColor("red");
-      setErrorText("All fields are required.");
-    } else {
-      setErrColor("green");
-      setErrorText("");
+    try {
+      const { data } = await api.post("/user/login", {
+        email: email,
+        pass: pass,
+      });
+      // console.log(data);
+      toast.success("Succesfully Login");
+      localStorage.setItem("token", data.token);
+      // console.log(data.token)
       navigate("/home");
+    } catch (error) {
+      setColor("red");
+      setText(error?.response?.data.msg);
     }
   };
+  const handeleCreateAccount = async (e) => {
+    e.preventDefault(e);
+    if (!lname || !user || !fname || !email || !pass) {
+      setErrColor("red");
+      setErrorText("All Fields Are Required.");
+      return;
+    }
+
+    try {
+      await api.post("/user/rejester", {
+        username: user,
+        fname: fname,
+        lname: lname,
+        email: email,
+        pass: pass,
+      });
+
+    
+      toast.success("Succesfully login");
+
+      setLogin(true)
+      setPass('')
+    } catch (error) {
+      setErrColor("red");
+      setErrorText(error?.response?.data.msg);
+    }
+  };
+
   return (
     <div className={styles.main_wrapper}>
       <div className={styles.main_container}>
@@ -79,7 +110,7 @@ export default function Signin({ title }) {
                         id="user"
                         placeholder="userName"
                         value={user}
-                        name="user"
+                        name="username"
                         onChange={(e) => setUser(e.target.value)}
                         style={{ border: `1px solid ${errColor}` }}
                       />
@@ -92,9 +123,9 @@ export default function Signin({ title }) {
                           className="form-control"
                           id="fname"
                           placeholder="First Name"
-                          value={name}
+                          value={fname}
                           name="fname"
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => setFname(e.target.value)}
                           style={{ border: `1px solid ${errColor}` }}
                         />
                       </div>
@@ -105,9 +136,9 @@ export default function Signin({ title }) {
                           className="form-control"
                           id="lname"
                           placeholder="Last Name"
-                          value={fname}
+                          value={lname}
                           name="lname"
-                          onChange={(e) => setFname(e.target.value)}
+                          onChange={(e) => setLname(e.target.value)}
                           style={{ border: `1px solid ${errColor}` }}
                         />
                       </div>

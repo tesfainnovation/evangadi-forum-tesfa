@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
+import { contextApi } from "../Context/Context";
+
 
 function Home() {
-    const[data,setDatas]=useState([])
+  const [data, setDatas] = useState([]);
+  const {userDatas}=useContext(contextApi)
 
-    useEffect(()=>{
-    fetch("http://localhost:3000/username")
-      .then((res) => res.json())
-      .then((data) => setDatas(data[0].firstname));
-    },[])
+
+  console.log(userDatas)
+
+
   return (
     <div>
-      {" "}
-      welcome to Home
-      <h1>hello{data}</h1>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+   {/* {
+    !userDatas &&<div>
+      <h1>loading....</h1>
+    </div>
+   } */}
+
+     <div className={style.module}></div>
     </div>
   );
 }
 
-export default Home
+export default Home;
