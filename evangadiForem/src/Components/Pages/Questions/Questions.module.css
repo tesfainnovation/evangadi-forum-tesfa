@@ -1,0 +1,48 @@
+.question_wrapper{
+    background-color: white;
+    padding: 20px;
+}
+.question_container{
+    width: 80%;
+    margin: 0 auto;
+}
+ .step_headline{
+    text-transform:capitalize;
+  
+}
+.headline_border{
+    border-bottom: 2px solid gray;
+    width: 400px;
+    margin-bottom: 20px;
+    animation: animate 2s infinite;
+
+}
+@keyframes animate{
+    from{
+        width: 100px;
+    }
+    to{
+        width:400px;
+    }
+}
+.stpess ul{
+    list-style-type: square;
+}
+.question_form input{
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,.6);
+}
+.question_form textarea{
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.6);
+}
+.question_form button{
+      border: none;
+  background-color: var(--button-color);
+  padding: 7px 20px;
+
+  color: white;
+  cursor: pointer;
+  opacity: 0.7;
+  margin-top: 20px;
+}

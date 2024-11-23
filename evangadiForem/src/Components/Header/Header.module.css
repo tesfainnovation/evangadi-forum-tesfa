@@ -8,6 +8,7 @@
     top: 0;
     background-color: white;
 
+
    
 }
 .header_container{
@@ -23,6 +24,7 @@
     gap: 20px;
     justify-content: center;
     align-items: center;
+        list-style: none;
 }
 .left_menu ul li a:hover{
     color: var(--primary-color);
@@ -35,10 +37,10 @@
   border: none;
   background-color:var(--button-color);
   padding: 7px 20px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   color: white;  
   cursor: pointer;
-  opacity: 0.7;
+  /* opacity: 0.7; */
   
 }
 .logout{
