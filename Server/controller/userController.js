@@ -3,47 +3,47 @@ const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 const bcyrpt = require("bcrypt");
 const rejester = async (req, res) => {
-  const { fname, lname, emial, pass, username } = req.body;
+  const { fname, lname, email, pass, username } = req.body;
 
-  if (!fname || !lname || !emial || !pass || !username) {
+  if (!fname || !lname || !email || !pass || !username) {
     // res.send('all fileda are required')
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ msg: "all filed required" });
+      .json({ msg: "All Fields Are Required." });
   }
   try {
-    const selectUser = `SELECT  username,user_id FROM USER where username=?or emial=? `;
+    const selectUser = `SELECT  username,user_id FROM USER where username=?or email=? `;
     //  const users=await dbConnecttion.query(selectUser,[user,email])
     //  res.status(200).json({user:users[0]})
 
     // same as the above code
-    const [users] = await dbConnecttion.query(selectUser, [username, emial]);
+    const [users] = await dbConnecttion.query(selectUser, [username, email]);
     if (users.length > 0) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ msg: "user have alreday have an account" });
+        .json({ msg: "User already has an account." });
     }
     //  res.status(200).json({ user: users });
     if (pass.length < 8) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ msg: "password should > 8 character" });
+        .json({ msg: "Password should be at least 8 characters long." });
     }
 
     // bcyrpt password
     const salt = await bcyrpt.genSalt(10);
     const hashPassword = await bcyrpt.hash(pass, salt);
-    const insertData = `INSERT INTO USER(username,firstname,lastname,emial,password) VALUES (?,?,?,?,?)`;
+    const insertData = `INSERT INTO USER(username,firstname,lastname,email,password) VALUES (?,?,?,?,?)`;
     await dbConnecttion.query(insertData, [
       username,
       fname,
       lname,
-      emial,
+      email,
       hashPassword,
     ]);
-    res.status(StatusCodes.CREATED).json({ msg: "user crated", user: users });
+    res.status(StatusCodes.CREATED).json({ msg: "User created successfully." });
   } catch (error) {
-    console.log(error.message);
+
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ msg: "internal server erorr,try again later" });
@@ -51,8 +51,8 @@ const rejester = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { emial, pass } = req.body;
-  if (!emial || !pass) {
+  const { email, pass } = req.body;
+  if (!email || !pass) {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ msg: "all fileds are required" });
@@ -60,35 +60,54 @@ const login = async (req, res) => {
 
   try {
     const selectemail =
-      "SELECT username,password,user_id FROM USER where emial=?";
-    const [useremial] = await dbConnecttion.query(selectemail, [emial]);
+      "SELECT username,password,user_id,firstname FROM USER where email=?";
+    const [useremail] = await dbConnecttion.query(selectemail, [email]);
 
-    //  res.json({useremial})
-    if (useremial.length === 0) {
+    // res.json({ useremail });
+    if (useremail.length === 0) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ msg: "user not found" });
+        .json({ msg: "User Not Found" });
     }
-    const isMatched = await bcyrpt.compare(pass, useremial[0].password);
+    const isMatched = await bcyrpt.compare(pass, useremail[0].password);
     if (!isMatched) {
-      return res.json({ msg: "password not matched" });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ msg: "password not matched" });
     }
-    const username = useremial[0].username;
-    const id = useremial[0].user_id;
+    const username = useremail[0].username;
+    const id = useremail[0].user_id;
+    const fname = useremail[0].firstname;
 
     const token = jwt.sign({ username, id }, process.env.JWT_SECRET);
-    res.status(StatusCodes.ACCEPTED).json({ msg: "succesfuly login", token });
+    return res
+      .status(StatusCodes.ACCEPTED)
+      .json({ msg: "succesfuly login", token, fname });
   } catch (error) {
-    res
+    return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ msg: "Internal server error,try again later!" });
   }
 };
 
 const checkuser = async (req, res) => {
- 
-  const {username,id}=req.user
-   res.status(StatusCodes.ACCEPTED).json({ msg:'valid user' ,username, id });
+  const { username, id } = req.user;
+  res.status(StatusCodes.ACCEPTED).json({ msg: "valid user", username, id });
 };
 
-module.exports = { rejester, login, checkuser };
+const userInfo = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const infos = "SELECT * FROM USER  ";
+    const [userinfos] = await dbConnecttion.query(infos);
+    res
+      .status(StatusCodes.ACCEPTED)
+      .json({ userinfos: userinfos[userinfos?.length - 1] });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Internal server error,try again later!" });
+  }
+};
+
+module.exports = { rejester, login, checkuser, userInfo };
