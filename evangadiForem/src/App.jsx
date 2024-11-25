@@ -11,6 +11,8 @@ import Questions from './Components/Pages/Questions/Questions'
 import Answer from './Components/Pages/Answers/Answer';
 
 
+
+
 function App() {
 
   return (
@@ -24,6 +26,7 @@ function App() {
         <Route path='/answers' element={<Answer/>}/>
       </Routes>
       <ToastContainer/>
+    
       <Footer />
     </>
   );
