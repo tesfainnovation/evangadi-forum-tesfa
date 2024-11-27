@@ -6,6 +6,7 @@ function Context({ children }) {
   const navigate = useNavigate();
   const [userDatas, setUserDatas] = useState({});
   const token = localStorage.getItem("token");
+   const [questionLists, setQuestionLists] = useState([]);
   const handleCheck = async () => {
     try {
       const { data } = await api.get("user/check", {
@@ -26,9 +27,30 @@ function Context({ children }) {
     console.log(userDatas);
   }, []);
 
+
+
+
+
+
+  // question title and disc
+  const questionDatas = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const allQuestions = await api.get("/question/allquestions", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(allQuestions.data.data);
+      setQuestionLists(allQuestions.data.data.reverse());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const contextValues={
     userDatas,
-    setUserDatas,token
+    setUserDatas,token,questionDatas,questionLists
   }
   return (
     <div>

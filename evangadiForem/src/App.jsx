@@ -23,7 +23,7 @@ function App() {
         {/* <Route path='/signup' element={<SignUp/>}/> */}
         <Route path='/home' element={<Home/>}/>
         <Route path='/questions' element={<Questions/>}/>
-        <Route path='/answers' element={<Answer/>}/>
+        <Route path='/answers/:question_id' element={<Answer/>}/>
       </Routes>
       <ToastContainer/>
     

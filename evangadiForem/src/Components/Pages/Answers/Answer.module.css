@@ -9,9 +9,9 @@
   margin-bottom: 40px;
 
 }
-.answer_from_comminuty{
-    height: 300px;
-    overflow-y: scroll;
+.all_answer_list{
+    height: 300px; 
+     overflow-y: scroll;
 }
 .answer_from_commiity:-webkit-scrollbar{
     display: none;

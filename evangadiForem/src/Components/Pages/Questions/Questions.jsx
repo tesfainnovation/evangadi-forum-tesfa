@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Questions.module.css";
 import { toast } from "react-toastify";
 import api from "../../../axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,} from "react-router-dom";
 
 function Questions() {
 
@@ -10,7 +10,7 @@ function Questions() {
   const x = [1, 2, 3, 4, 5, 6];
 
 console.log(x.reverse())
-  console.log("ji");
+
 
 
   const navigate=useNavigate()
