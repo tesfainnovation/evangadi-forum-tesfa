@@ -3,6 +3,7 @@ const dbConnecttion = require("./Db/dbconfig");
 const cors = require("cors");
 const router = require("./routes/userRoute");
 const questionRouter = require("./routes/questionRoute");
+const answerRoute = require("./routes/answerRoute");
 
 require("dotenv").config();
 const app = express();
@@ -50,7 +51,8 @@ app.use("/Api/user", router);
 
 // QuestionRoute middleware
 app.use("/Api", questionRouter);
-//
+// answer route
+app.use('/Api',answerRoute)
 
 const start = async () => {
   try {
