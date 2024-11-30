@@ -7,6 +7,7 @@ function Context({ children }) {
   const [userDatas, setUserDatas] = useState({});
   const token = localStorage.getItem("token");
    const [questionLists, setQuestionLists] = useState([]);
+    const [userIcon, setUserIcon] = useState(true);
   const handleCheck = async () => {
     try {
       const { data } = await api.get("user/check", {
@@ -24,7 +25,7 @@ function Context({ children }) {
 
   useEffect(() => {
     handleCheck();
-    console.log(userDatas);
+    console.log(userDatas)
   }, []);
 
 
@@ -48,10 +49,14 @@ function Context({ children }) {
     }
   };
 
-  const contextValues={
+  const contextValues = {
     userDatas,
-    setUserDatas,token,questionDatas,questionLists
-  }
+    setUserDatas,
+    token,
+    questionDatas,
+    questionLists,
+    userIcon,
+  };
   return (
     <div>
       <contextApi.Provider value={contextValues}>

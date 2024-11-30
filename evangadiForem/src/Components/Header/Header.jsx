@@ -17,7 +17,7 @@ const handleLogout=()=>{
     <div className={styles.header_wrapper}>
       <div className={styles.header_container}>
         <div className={styles.header_logo}>
-          <Link to={'/home'}>
+          <Link to={token && `/home`}>
           <img src={logo} alt="logo" width={"180px"} />
           </Link>
         </div>

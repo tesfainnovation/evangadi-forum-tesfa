@@ -47,11 +47,21 @@
   justify-content: center;
   align-items: center;
 }
-.avater img {
+.avater h1 {
   border-radius: 50%;
   border: 2px solid gray;
-}
+  color: black;
+   width: 70px;
+   height: 70px;
 
+  text-align: center;
+ transition: background-color 0.3s ease;
+ 
+}
+.questions:hover .avater h1{
+ color: white;
+ background-color: #1e293b
+}
 .arrow{
     font-weight: 900;
     cursor: pointer;

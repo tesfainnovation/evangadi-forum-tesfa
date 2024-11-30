@@ -1,54 +1,36 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styles from "./Signin.module.css";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../axios";
 import { toast } from "react-toastify";
+import { contextApi } from "../Context/Context";
+import useLogin from "../hooks/useLogin";
 
 export default function Signin({ title }) {
-  const navigate = useNavigate();
   const [showpass, setShowPass] = useState(false);
   const [login, setLogin] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
   const [user, setUser] = useState("");
-
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  const [color, setColor] = useState("gray");
   const [errColor, setErrColor] = useState("gray");
-  const [text, setText] = useState("");
+
   const [errText, setErrorText] = useState("");
 
   const handleChangeLogin = () => {
     setLogin((prev) => !prev);
     setIsClicked((prev) => !prev);
   };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!email || !pass) {
-      setColor("red");
-      setText("All Fields Are Required");
-      return;
-    }
-    try {
-      const { data } = await api.post("/user/login", {
-        email: email,
-        pass: pass,
-      });
-      // console.log(data);
-      toast.success("Succesfully Login");
-      localStorage.setItem("token", data.token);
-      // console.log(data.token)
-      navigate("/home");
-    } catch (error) {
-      setColor("red");
-      setText(error?.response?.data.msg);
-    }
-  };
+  const {email,
+    setEmail,
+    pass,
+    setPass,
+    color,
+    text,
+    handleLogin,}=useLogin()
+ 
   const handeleCreateAccount = async (e) => {
     e.preventDefault(e);
     if (!lname || !user || !fname || !email || !pass) {
@@ -177,7 +159,10 @@ export default function Signin({ title }) {
                     {showpass ? <FaEye /> : <FaEyeSlash />}
                   </div>
                 </div>
-                <small className={styles.forgot_pass}>Forgot Password?</small>
+                {/* <small className={styles.forgot_pass}>Forgot Password?</small>
+                 */}
+                 
+                
                 <br />
                 <button type="submit" className={styles.signin_btn}>
                   {login ? "Login" : "Agree & Join"}

@@ -1,51 +1,11 @@
-import React, { useState } from "react";
+
 import styles from "./Questions.module.css";
-import { toast } from "react-toastify";
-import api from "../../../axios";
-import { useNavigate,} from "react-router-dom";
-
+import useAddQuestions from "../../hooks/useAddQuestions";
 function Questions() {
-
-
-  const x = [1, 2, 3, 4, 5, 6];
-
-console.log(x.reverse())
+const { title, setTitle, desc, setDesc,err, addQuestions}=useAddQuestions()
 
 
 
-  const navigate=useNavigate()
-  const[title,setTitle]=useState('')
-  const[desc,setDesc]=useState('')
-  const[err,setErr]=useState('gray')
-
-
-  console.log(title)
-const addQuestions=async(e)=>{
-e.preventDefault()
-if(!title||!desc){
-    setErr('red')
-    toast.error('Please Fill ALL Fileds')
-}
-try {
-  const token=localStorage.getItem('token')
-  const sendQuestion = await api.post("/questions", {
-    title: title,
-    descrbition: desc,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-  );
-  toast.success(sendQuestion.data.msg);
-  navigate('/home')
-
-
-} catch (error) {
-  console.log(error)
-}
-}
 
   return (
     <div className={styles.question_wrapper}>
