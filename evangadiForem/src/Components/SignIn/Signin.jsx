@@ -16,6 +16,7 @@ export default function Signin({ title }) {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [errColor, setErrColor] = useState("gray");
+   
 
   const [errText, setErrorText] = useState("");
 
@@ -50,7 +51,6 @@ export default function Signin({ title }) {
 
     
       toast.success("Succesfully login");
-
       setLogin(true)
       setPass('')
     } catch (error) {
@@ -59,6 +59,12 @@ export default function Signin({ title }) {
     }
   };
 
+
+  // styles for the bordered list
+
+  const inputStyle={
+    borderBottom:'2px solid red',
+  }
   return (
     <div className={styles.main_wrapper}>
       <div className={styles.main_container}>
@@ -88,12 +94,13 @@ export default function Signin({ title }) {
                       <label for="user"></label>
                       <input
                         type="text"
-                        className="form-control"
+                        className={`${styles.usernames} form-control`}
                         id="user"
                         placeholder="userName"
                         value={user}
                         name="username"
                         onChange={(e) => setUser(e.target.value)}
+                        onClick={{ styles: { inputStyle } }}
                         style={{ border: `1px solid ${errColor}` }}
                       />
                     </div>
@@ -102,7 +109,7 @@ export default function Signin({ title }) {
                         <label for="fname"></label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`${styles.usernames} form-control`}
                           id="fname"
                           placeholder="First Name"
                           value={fname}
@@ -115,7 +122,7 @@ export default function Signin({ title }) {
                         <label for="lname"></label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`${styles.usernames} form-control`}
                           id="lname"
                           placeholder="Last Name"
                           value={lname}
@@ -131,7 +138,7 @@ export default function Signin({ title }) {
                   <label for="email"></label>
                   <input
                     type="email"
-                    className="form-control"
+                    className={`${styles.usernames} form-control`}
                     id="email"
                     placeholder="Email"
                     value={email}
@@ -144,7 +151,7 @@ export default function Signin({ title }) {
                   <label for="pwd"></label>
                   <input
                     type={showpass ? "text" : "password"}
-                    className="form-control xx"
+                    className={`${styles.usernames} form-control`}
                     id="pwd"
                     placeholder="Password"
                     value={pass}
@@ -161,8 +168,7 @@ export default function Signin({ title }) {
                 </div>
                 {/* <small className={styles.forgot_pass}>Forgot Password?</small>
                  */}
-                 
-                
+
                 <br />
                 <button type="submit" className={styles.signin_btn}>
                   {login ? "Login" : "Agree & Join"}

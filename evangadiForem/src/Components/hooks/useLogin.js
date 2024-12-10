@@ -25,6 +25,8 @@ export default function useLogin() {
       });
       toast.success("Successfully Logged In");
       localStorage.setItem("token", data.token);
+      console.log(data);
+      
       navigate("/home");
     } catch (error) {
       setColor("red");

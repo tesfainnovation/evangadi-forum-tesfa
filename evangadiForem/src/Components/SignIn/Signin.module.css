@@ -76,6 +76,26 @@ span{
 .main_container input{
     outline: none;
 }
+.usernames{
+    outline: none important;
+}
+.usernames {
+  border: none;
+  border-bottom: 2px solid transparent; /* Start with a transparent border */
+  outline: none;
+  background: linear-gradient(to right, #FE8402 0%, #FE8402 100%);
+  background-size: 0% 2px; 
+  background-repeat: no-repeat;
+  background-position: left bottom; 
+  transition: background-size .5s ease-in; 
+  box-shadow: none !important;
+}
+
+.usernames:focus {
+  background-size: 100% 2px; 
+}
+
+
 @keyframes animate{
    from{
     transform: translateX(-300px);

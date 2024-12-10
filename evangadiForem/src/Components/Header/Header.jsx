@@ -23,10 +23,10 @@ const handleLogout=()=>{
         </div>
         <div className={styles.left_menu}>
           <ul>
-            <li>
+            <li className={styles.home}>
               <Link to="/home">Home</Link>
             </li>
-            <li>
+            <li className={styles.how}>
               <Link to="#">How it works</Link>
             </li>
         

@@ -49,3 +49,11 @@
 .left_menu ul button:hover{
     opacity: 1;
 }
+
+
+@media (max-width:769px){
+    .how,.home{
+        display: none;
+    }
+  
+}

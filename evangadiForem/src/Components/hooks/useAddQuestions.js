@@ -13,7 +13,7 @@ function useAddQuestions() {
   const addQuestions = async (e) => {
     e.preventDefault();
     if (!title || !desc) {
-      setErr("red");
+      setErr("red"); 
       toast.error("Please Fill ALL Fileds");
     }
     try {

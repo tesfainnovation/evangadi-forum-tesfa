@@ -7,7 +7,6 @@ import { FaUserAlt } from "react-icons/fa";
 function Home() {
   const { userDatas, questionDatas, questionLists, userIcon } =
     useContext(contextApi);
-
   useEffect(() => {
     questionDatas();
   }, []);
