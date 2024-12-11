@@ -28,11 +28,12 @@
   align-items: center;
   transition: background-color 0.3s ease;
  
-  padding: 10px;
+  padding: 10px 20px;
 }
 .questions:hover {
-  background-color: #e2e8f0;
+  background-color: #f1f5f9;
   cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
 }
 .arrow {
   transition: transform 0.3s ease; 
@@ -74,14 +75,15 @@
 .search_input{
  
   border-bottom: 3px solid transparent; 
-border: none;
+  border: none;
   background: linear-gradient(to right, #FE8402 0%, #FE8402 100%);
   background-size: 0% 3px; 
   background-repeat: no-repeat;
   background-position: left bottom; 
-  transition: background-size .5s ease-in; 
- 
+  transition: background-size .5s ease-in;
+
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+  position: relative;
 }
 
 .search_input:focus {

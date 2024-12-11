@@ -9,7 +9,7 @@ function Home() {
   const { userDatas, questionDatas, questionLists, userIcon, loading } =
     useContext(contextApi);
     const[search,setSearch]=useState('')
-    const[searchResult,setSearchResult]=useState('')
+ 
 
   useEffect(() => {
     questionDatas();
@@ -33,7 +33,7 @@ function Home() {
 
           {loading ? <p>Loading...</p> : <p>Username: {userDatas?.username}</p>}
         </div>
-        <div className="row">
+        <div className="row mb-5" >
           <div className="col-md">
             <h4> All Quesions</h4>
           </div>
@@ -47,7 +47,7 @@ function Home() {
               onChange={(e) => setSearch(e.target.value)}
             />
             <button id="search-button" type="button" class="btn btn-primary">
-              <i class="fa fa-search">
+              <i class="fa fa-search" >
                 <CiSearch onClick={searchQuestion} />
               </i>
             </button>

@@ -14,48 +14,47 @@ import { FaUserAlt } from "react-icons/fa";
 import useAnswers from "../../hooks/useAnswers";
 import useSendAnswers from "../../hooks/useSendAnswers";
 import useDelete from "../../hooks/useDelete";
+import EmojiPicker from "emoji-picker-react";
+import { MdEmojiEmotions } from "react-icons/md";
 
 function Answer() {
   const { userDatas, questionLists, userIcon } = useContext(contextApi);
- const { answers, like, title, setLike,allQuestions }=useAnswers()
-//  const {sendAnswers, answerFiled, setAnswerFiled }=useSendAnswers()
-//  const{deleteAnswer}=useDelete()
+    const [emoji, setEmoji] = useState(false);
+  const { answers, like, title, setLike, allQuestions } = useAnswers();
+  //  const {sendAnswers, answerFiled, setAnswerFiled }=useSendAnswers()
+  //  const{deleteAnswer}=useDelete()
   const [answerFiled, setAnswerFiled] = useState("");
   // const { allQuestions } = useAnswers();
   const { question_id } = useParams();
 
+  const sendAnswers = async (e) => {
+    e.preventDefault();
 
- const sendAnswers = async (e) => {
-   e.preventDefault();
+    if (!answerFiled) {
+      toast.error("all filed required!");
+    }
+    try {
+      const token = localStorage.getItem("token");
+      const answers = await api.post(
+        `/answers/${question_id}`,
+        {
+          answer: answerFiled,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-   if (!answerFiled) {
-     toast.error("all filed required!");
-   }
-   try {
-     const token = localStorage.getItem("token");
-     const answers = await api.post(
-       `/answers/${question_id}`,
-       {
-         answer: answerFiled,
-       },
-       {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       }
-     );
+      console.log(answers);
+      allQuestions();
+      setAnswerFiled("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-     console.log(answers);
-     allQuestions();
-     setAnswerFiled("");
-   } catch (error) {
-     console.log(error);
-   }
- };
-
-
-
- 
   // enable enter key
 
   const handleEnterKey = (e) => {
@@ -66,15 +65,12 @@ function Answer() {
   };
   // delete function
 
-
-  const toggleLike=(id)=>{
-    setLike((prev)=>({
-...prev,[id]:!prev[id]
-    }))
-  }
-
-
-
+  const toggleLike = (id) => {
+    setLike((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const deleteAnswer = async (answer_id) => {
     const token = localStorage.getItem("token");
@@ -92,6 +88,16 @@ function Answer() {
     }
   };
 
+
+  // emoji
+
+    const hadleEmojies = (e) => {
+      console.log(e.emoji);
+      setAnswerFiled([answerFiled, e.emoji].join(""));
+    };
+    const removeEmoji = () => {
+      setEmoji(false);
+    };
 
   return (
     <div className={css.answer_wrapper}>
@@ -126,10 +132,7 @@ function Answer() {
                 <div className={css.answer_from_comminuty} key={index}>
                   <div className={css.answers_page}>
                     <div className={css.avater_image}>
-                      <h1>
-                     {userIcon &&<FaUserAlt/>}
-
-                      </h1>
+                      <h1>{userIcon && <FaUserAlt />}</h1>
                       <div>{answer.username}</div>
                     </div>
                     <div>
@@ -143,7 +146,10 @@ function Answer() {
                         </span>
                       )}
 
-                      <span onClick={() => toggleLike(answer.answer_id)} style={{color:'blue'}}>
+                      <span
+                        onClick={() => toggleLike(answer.answer_id)}
+                        style={{ color: "blue" }}
+                      >
                         {like[answer.answer_id] ? (
                           <BiSolidLike />
                         ) : (
@@ -167,8 +173,6 @@ function Answer() {
           )}
         </div>
 
-        <hr />
-
         <div className={css.answer_form}>
           <h4 className="text-center mb-5">Answer The Top Questions</h4>
           <form onSubmit={sendAnswers}>
@@ -181,7 +185,19 @@ function Answer() {
               value={answerFiled}
               onChange={(e) => setAnswerFiled(e.target.value)}
               onKeyDown={handleEnterKey}
+              onClick={removeEmoji}
             ></textarea>
+
+          <div className={css.emoji}>
+
+              <div className="main-emoji">
+                <MdEmojiEmotions onClick={() => setEmoji((prev) => !prev)} />
+              </div>
+              <div className="emoji-picker">
+                {emoji && <EmojiPicker onEmojiClick={hadleEmojies} />}
+              </div>
+           
+          </div>
 
             <button type="submit">Post Your Answer</button>
           </form>
