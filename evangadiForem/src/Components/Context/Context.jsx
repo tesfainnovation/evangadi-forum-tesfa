@@ -8,6 +8,7 @@ function Context({ children }) {
   const token = localStorage.getItem("token");
    const [questionLists, setQuestionLists] = useState([]);
     const [userIcon, setUserIcon] = useState(true);
+    const [loading,setLoading]=useState(true)
   const handleCheck = async () => {
     try {
       const { data } = await api.get("user/check", {
@@ -17,8 +18,10 @@ function Context({ children }) {
       });
       setUserDatas(data);
       console.log(data);
+      setLoading(false)
     } catch (error) {
       console.log(error);
+      setLoading(false)
       navigate("/");
     }
   };
@@ -56,6 +59,7 @@ function Context({ children }) {
     questionDatas,
     questionLists,
     userIcon,
+    loading
   };
   return (
     <div>

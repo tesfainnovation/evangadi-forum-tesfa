@@ -4,12 +4,24 @@ import style from "./Home.module.css";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link, useParams } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
+import { CiSearch } from "react-icons/ci";
 function Home() {
-  const { userDatas, questionDatas, questionLists, userIcon } =
+  const { userDatas, questionDatas, questionLists, userIcon, loading } =
     useContext(contextApi);
+    const[search,setSearch]=useState('')
+    const[searchResult,setSearchResult]=useState('')
+
   useEffect(() => {
     questionDatas();
   }, []);
+
+  const searchQuestion = questionLists.filter(question =>
+    question.title.toLowerCase().includes(search.toLowerCase())
+
+
+  );
+
+
 
   return (
     <div className={style.home}>
@@ -19,14 +31,33 @@ function Home() {
             <button>Add Questions</button>
           </Link>
 
-          <p>Username:{userDatas?.username}</p>
+          {loading ? <p>Loading...</p> : <p>Username: {userDatas?.username}</p>}
         </div>
-        <h4>Quesions</h4>
-        <hr />
+        <div className="row">
+          <div className="col-md">
+            <h4> All Quesions</h4>
+          </div>
+          <div class="input-group col-md">
+            <input
+              id="search-input"
+              type="search"
+              className={`${style.search_input} form-control`}
+              placeholder="Search anything..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button id="search-button" type="button" class="btn btn-primary">
+              <i class="fa fa-search">
+                <CiSearch onClick={searchQuestion} />
+              </i>
+            </button>
+          </div>
+        </div>
 
+        <hr />
         <div>
           {questionLists.length > 0 ? (
-            questionLists.map((data, index) => {
+            searchQuestion.map((data, index) => {
               return (
                 <Link to={`/answers/${data.question_id}`}>
                   <div className={style.questions} key={index}>
