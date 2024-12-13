@@ -15,7 +15,6 @@ import { contextApi } from './Components/Context/Context';
 
 
 
-
 function App() {
 const {token}=useContext(contextApi)
 console.log(token)
@@ -27,7 +26,6 @@ console.log(token)
           path="/"
           element={token ? <Navigate to={"/home"} /> : <Signin/>}
         />
-        {/* <Route path='/signup' element={<SignUp/>}/> */}
         <Route path="/home" element={<Home />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/answers/:question_id" element={<Answer />} />

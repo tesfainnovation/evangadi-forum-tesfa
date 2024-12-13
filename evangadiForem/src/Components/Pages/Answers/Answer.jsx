@@ -11,8 +11,7 @@ import { MdDelete } from "react-icons/md";
 import { BiSolidLike } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 import useAnswers from "../../hooks/useAnswers";
-import useSendAnswers from "../../hooks/useSendAnswers";
-import useDelete from "../../hooks/useDelete";
+
 import EmojiPicker from "emoji-picker-react";
 import { MdEmojiEmotions } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -121,7 +120,12 @@ function Answer() {
     setEmoji(false);
   };
 
-  // edit answer for answer file
+//  find title and description
+  const titleDescribtion = questionLists.find((question) => question.question_id === question_id);
+
+  useEffect(() => {
+    allQuestions();
+  }, []);
 
   return (
     <div className={css.answer_wrapper}>
@@ -136,10 +140,10 @@ function Answer() {
               <span className="me-3 text-dark">
                 <FaCircleArrowRight />
               </span>
-              {title[0]?.title}
+              {titleDescribtion.title}
             </p>
           }
-          {<p>{title[0]?.descrbition}</p>}
+          {<p>{titleDescribtion.descrbition}</p>}
 
           {questionLists.title}
         </h6>
@@ -221,7 +225,7 @@ function Answer() {
               </div>
             </div>
 
-            <button type="submit">Post Your Answer</button>
+            <button type="submit">{editAnswers?'Edit Your Answer':'Post Your Answer'}</button>
           </form>
         </div>
       </div>

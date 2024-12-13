@@ -14,6 +14,9 @@ function Home() {
   useEffect(() => {
     questionDatas();
   }, []);
+  
+
+  // search question
 
   const searchQuestion = questionLists.filter(question =>
     question.title.toLowerCase().includes(search.toLowerCase())
@@ -63,7 +66,6 @@ function Home() {
                   <div className={style.questions} key={index}>
                     <div className={style.avater}>
                       <div className={style.avater_img}>
-                        {/* <img src={user2} alt="" width={"70px"} /> */}
                         <h1>{userIcon && <FaUserAlt />}</h1>
                       </div>
                       <div>{data.firstname}</div>

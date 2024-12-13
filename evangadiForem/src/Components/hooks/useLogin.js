@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import api from "../../axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { contextApi } from "../Context/Context";
 
 export default function useLogin() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [color, setColor] = useState("gray");
   const [text, setText] = useState("");
+  const { handleCheck}=useContext(contextApi)
 
   const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ export default function useLogin() {
       console.log(data);
       
       navigate("/home");
+      window.location.reload();
     } catch (error) {
       setColor("red");
       setText(error?.response?.data.msg || "An error occurred");

@@ -17,7 +17,7 @@ function Context({ children }) {
         },
       });
       setUserDatas(data);
-      console.log(data);
+      // console.log(data);
       setLoading(false)
     } catch (error) {
       console.log(error);
@@ -28,7 +28,7 @@ function Context({ children }) {
 
   useEffect(() => {
     handleCheck();
-    console.log(userDatas)
+    // console.log(userDatas)
   }, []);
 
 
@@ -59,7 +59,8 @@ function Context({ children }) {
     questionDatas,
     questionLists,
     userIcon,
-    loading
+    loading,
+    handleCheck,
   };
   return (
     <div>
