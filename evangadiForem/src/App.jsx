@@ -6,6 +6,7 @@ import { Navigate, Route,Routes, useNavigate } from 'react-router-dom';
 import Signin from './Components/SignIn/Signin';
 import Home from './Components/Home/Home';
 import { ToastContainer} from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import Questions from './Components/Pages/Questions/Questions'
 import Answer from './Components/Pages/Answers/Answer';
@@ -32,6 +33,7 @@ console.log(token)
         <Route path="/answers/:question_id" element={<Answer />} />
       </Routes>
       <ToastContainer />
+      <Toaster position="top-right" />
 
       <Footer />
     </>

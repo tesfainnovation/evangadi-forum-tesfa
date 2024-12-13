@@ -4,7 +4,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { contextApi } from "../Context/Context";
 import useLogin from "../hooks/useLogin";
 
@@ -16,7 +16,6 @@ export default function Signin({ title }) {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [errColor, setErrColor] = useState("gray");
-   
 
   const [errText, setErrorText] = useState("");
 
@@ -24,14 +23,9 @@ export default function Signin({ title }) {
     setLogin((prev) => !prev);
     setIsClicked((prev) => !prev);
   };
-  const {email,
-    setEmail,
-    pass,
-    setPass,
-    color,
-    text,
-    handleLogin,}=useLogin()
- 
+  const { email, setEmail, pass, setPass, color, text, handleLogin } =
+    useLogin();
+
   const handeleCreateAccount = async (e) => {
     e.preventDefault(e);
     if (!lname || !user || !fname || !email || !pass) {
@@ -49,22 +43,20 @@ export default function Signin({ title }) {
         pass: pass,
       });
 
-    
       toast.success("Succesfully login");
-      setLogin(true)
-      setPass('')
+      setLogin(true);
+      setPass("");
     } catch (error) {
       setErrColor("red");
       setErrorText(error?.response?.data.msg);
     }
   };
 
-
   // styles for the bordered list
 
-  const inputStyle={
-    borderBottom:'2px solid red',
-  }
+  const inputStyle = {
+    borderBottom: "2px solid red",
+  };
   return (
     <div className={styles.main_wrapper}>
       <div className={styles.main_container}>
@@ -83,11 +75,7 @@ export default function Signin({ title }) {
                   {login ? " Create a new account  " : " Sign in"}
                 </span>
               </p>
-              <form
-                action="http://localhost:3000/rejester"
-                method="POST"
-                onSubmit={login ? handleLogin : handeleCreateAccount}
-              >
+              <form onSubmit={login ? handleLogin : handeleCreateAccount}>
                 {!login && (
                   <div>
                     <div>
@@ -166,8 +154,11 @@ export default function Signin({ title }) {
                     {showpass ? <FaEye /> : <FaEyeSlash />}
                   </div>
                 </div>
-                {/* <small className={styles.forgot_pass}>Forgot Password?</small>
-                 */}
+                < div className="mt-3">
+                <small className={styles.forgot_pass} mt-5>Forgot Password?</small>
+                
+                </div>
+                
 
                 <br />
                 <button type="submit" className={styles.signin_btn}>

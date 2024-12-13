@@ -37,7 +37,7 @@ function Home() {
           <div className="col-md">
             <h4> All Quesions</h4>
           </div>
-          <div class="input-group col-md">
+          <div class="input-group col-md mt-2">
             <input
               id="search-input"
               type="search"

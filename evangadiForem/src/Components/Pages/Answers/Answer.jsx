@@ -5,7 +5,6 @@ import { contextApi } from "../../Context/Context";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import api from "../../../axios";
-import { toast } from "react-toastify";
 import { FaPen } from "react-icons/fa6";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
@@ -16,44 +15,68 @@ import useSendAnswers from "../../hooks/useSendAnswers";
 import useDelete from "../../hooks/useDelete";
 import EmojiPicker from "emoji-picker-react";
 import { MdEmojiEmotions } from "react-icons/md";
+import toast from "react-hot-toast";
 
 function Answer() {
   const { userDatas, questionLists, userIcon } = useContext(contextApi);
-    const [emoji, setEmoji] = useState(false);
+  const [emoji, setEmoji] = useState(false);
   const { answers, like, title, setLike, allQuestions } = useAnswers();
-  //  const {sendAnswers, answerFiled, setAnswerFiled }=useSendAnswers()
-  //  const{deleteAnswer}=useDelete()
+  const [editAnswers, setEditAnswers] = useState("");
   const [answerFiled, setAnswerFiled] = useState("");
-  // const { allQuestions } = useAnswers();
   const { question_id } = useParams();
 
   const sendAnswers = async (e) => {
     e.preventDefault();
 
     if (!answerFiled) {
-      toast.error("all filed required!");
+      toast.error("All fields are required!");
+      return;
     }
+
     try {
       const token = localStorage.getItem("token");
-      const answers = await api.post(
-        `/answers/${question_id}`,
-        {
-          answer: answerFiled,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      if (editAnswers) {
 
-      console.log(answers);
-      allQuestions();
-      setAnswerFiled("");
+        await api.put(
+          `/edit/${editAnswers}`,
+
+          { answer: answerFiled },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        toast.success("Answer updated successfully!");
+      } else {
+        // Add a new answer
+        await api.post(
+          `/answers/${question_id}`,
+          { answer: answerFiled },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        toast.success("Answer posted successfully!");
+      }
+
+      allQuestions()
+      setAnswerFiled("") 
+      setEditAnswers("")
     } catch (error) {
       console.log(error);
+      toast.error("An error occurred while saving the answer!");
     }
   };
+
+  // edit function
+ const editAnswer = (answer) => {
+   setEditAnswers(answer.answer_id); 
+   setAnswerFiled(answer.answer); 
+ };
 
   // enable enter key
 
@@ -88,16 +111,17 @@ function Answer() {
     }
   };
 
-
   // emoji
 
-    const hadleEmojies = (e) => {
-      console.log(e.emoji);
-      setAnswerFiled([answerFiled, e.emoji].join(""));
-    };
-    const removeEmoji = () => {
-      setEmoji(false);
-    };
+  const hadleEmojies = (e) => {
+    console.log(e.emoji);
+    setAnswerFiled([answerFiled, e.emoji].join(""));
+  };
+  const removeEmoji = () => {
+    setEmoji(false);
+  };
+
+  // edit answer for answer file
 
   return (
     <div className={css.answer_wrapper}>
@@ -142,7 +166,7 @@ function Answer() {
                     <div className={css.edit_icons}>
                       {userDatas.id === answer.user_id && (
                         <span>
-                          <FaPen />
+                          <FaPen onClick={() => editAnswer(answer)} />
                         </span>
                       )}
 
@@ -188,16 +212,14 @@ function Answer() {
               onClick={removeEmoji}
             ></textarea>
 
-          <div className={css.emoji}>
-
+            <div className={css.emoji}>
               <div className="main-emoji">
                 <MdEmojiEmotions onClick={() => setEmoji((prev) => !prev)} />
               </div>
               <div className="emoji-picker">
                 {emoji && <EmojiPicker onEmojiClick={hadleEmojies} />}
               </div>
-           
-          </div>
+            </div>
 
             <button type="submit">Post Your Answer</button>
           </form>
