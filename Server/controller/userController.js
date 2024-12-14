@@ -6,7 +6,6 @@ const rejester = async (req, res) => {
   const { fname, lname, email, pass, username } = req.body;
 
   if (!fname || !lname || !email || !pass || !username) {
-    // res.send('all fileda are required')
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ msg: "All Fields Are Required." });
@@ -14,10 +13,11 @@ const rejester = async (req, res) => {
   try {
     const selectUser = `SELECT  username,user_id FROM USER where username=?or email=? `;
     //  const users=await dbConnecttion.query(selectUser,[user,email])
-    //  res.status(200).json({user:users[0]})
+    //  res.status(200).json({user:use rs[0]})
 
     // same as the above code
     const [users] = await dbConnecttion.query(selectUser, [username, email]);
+    console.log(users)
     if (users.length > 0) {
       return res
         .status(StatusCodes.BAD_REQUEST)
@@ -43,7 +43,6 @@ const rejester = async (req, res) => {
     ]);
     res.status(StatusCodes.CREATED).json({ msg: "User created successfully." });
   } catch (error) {
-
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ msg: "internal server erorr,try again later" });
@@ -80,6 +79,7 @@ const login = async (req, res) => {
     const fname = useremail[0].firstname;
 
     const token = jwt.sign({ username, id }, process.env.JWT_SECRET);
+    // console.log(token)
     return res
       .status(StatusCodes.ACCEPTED)
       .json({ msg: "succesfuly login", token, fname });
@@ -94,6 +94,11 @@ const checkuser = async (req, res) => {
   const { username, id } = req.user;
   res.status(StatusCodes.ACCEPTED).json({ msg: "valid user", username, id });
 };
+
+
+
+
+
 
 const userInfo = async (req, res) => {
   const { email } = req.body;

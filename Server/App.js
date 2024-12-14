@@ -52,7 +52,7 @@ app.use("/Api/user", router);
 // QuestionRoute middleware
 app.use("/Api", questionRouter);
 // answer route
-app.use('/Api',answerRoute)
+app.use("/Api", answerRoute);
 
 const start = async () => {
   try {
@@ -66,25 +66,3 @@ const start = async () => {
   }
 };
 start();
-
-// app.post("/rejester", (req, res) => {
-//   const { fname, lname, email, pass, user } = req.body;
-//   const insertData = `INSERT INTO USER(username,firstname,lastname,emial,password) VALUES (?,?,?,?,?)`;
-//   database.query(insertData, [user, fname, lname, email, pass], (err, data) =>
-//     err ? console.log(err) : console.log(data)
-//   );
-//   res.send("account created");
-// });
-
-// app.get("/username", (req, res) => {
-//   const selectFile = `SELECT * FROM USER`;
-
-//   database.query(selectFile, (err, data) => {
-//     if (err) {
-//       console.error("Error fetching data:", err);
-//       return res.status(500).json({ error: "Internal Server Error" });
-//     }
-//     console.log("Data retrieved successfully:", data);
-//     res.status(200).json(data);
-//   });
-// });

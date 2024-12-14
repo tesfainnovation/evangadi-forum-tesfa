@@ -16,12 +16,13 @@ const questions = async (req, res) => {
   }
   try {
     const insertQuestion = `INSERT INTO  Questions(title,descrbition, question_id,user_id) VALUES (?,?,?,?)`;
-    await dbConnecttion.query(insertQuestion, [
+await dbConnecttion.query(insertQuestion, [
       title,
       descrbition,
       question_id,
       id,
     ]);
+  
     return res.status(StatusCodes.ACCEPTED).json({ msg: "question sent" });
   } catch (error) {
     console.log(error);
@@ -33,10 +34,28 @@ const questions = async (req, res) => {
 
 
 
+// get a singl question from the server
+
+const singleQuestion=async(req,res)=>{
+  const{id}=req.params
+  const{username}=req.user
+  try {
+    const singleQuestion = `SELECT Questions.title,  Questions.descrbition From Questions WHERE question_id = ?`;
+    const [singleQuestions]=await dbConnecttion.query(singleQuestion,[id])
+    if(singleQuestions.length===0){
+      return res.status(StatusCodes.NOT_FOUND).json({msg:'question not found'})
+    }
+    return res.status(StatusCodes.ACCEPTED).json({singleQuestions})
+} catch (error) {
+  console.log(error)
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg:'server error'})
+}
+}
+
 const allquestions=async(req,res)=>{
   const{username}=req.user
 try {
-  const allquestions = `SELECT Questions.title,USER.firstname,Questions.question_id FROM Questions JOIN USER ON  Questions.user_id=USER.user_id`;
+  const allquestions = `SELECT Questions.title,  Questions. descrbition ,USER.firstname,Questions.question_id FROM Questions JOIN USER ON  Questions.user_id=USER.user_id`;
     const [data]=await dbConnecttion.query(allquestions)
     return res.status(StatusCodes.ACCEPTED).json({data})
 } catch (error) {
@@ -45,4 +64,7 @@ try {
 }
 }
 
-module.exports = {questions,allquestions};
+module.exports = {questions,allquestions,singleQuestion};
+
+
+
