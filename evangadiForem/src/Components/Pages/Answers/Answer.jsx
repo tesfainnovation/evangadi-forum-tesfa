@@ -15,6 +15,7 @@ import useAnswers from "../../hooks/useAnswers";
 import EmojiPicker from "emoji-picker-react";
 import { MdEmojiEmotions } from "react-icons/md";
 import toast from "react-hot-toast";
+import useSingleQuestion from "../../hooks/singleQuestion";
 
 function Answer() {
   const { userDatas, questionLists, userIcon } = useContext(contextApi);
@@ -23,6 +24,7 @@ function Answer() {
   const [editAnswers, setEditAnswers] = useState("");
   const [answerFiled, setAnswerFiled] = useState("");
   const { question_id } = useParams();
+  const { singleQuestion, singleQuestionApi } = useSingleQuestion();
 
   const sendAnswers = async (e) => {
     e.preventDefault();
@@ -35,7 +37,6 @@ function Answer() {
     try {
       const token = localStorage.getItem("token");
       if (editAnswers) {
-
         await api.put(
           `/edit/${editAnswers}`,
 
@@ -62,9 +63,9 @@ function Answer() {
         toast.success("Answer posted successfully!");
       }
 
-      allQuestions()
-      setAnswerFiled("") 
-      setEditAnswers("")
+      allQuestions();
+      setAnswerFiled("");
+      setEditAnswers("");
     } catch (error) {
       console.log(error);
       toast.error("An error occurred while saving the answer!");
@@ -72,16 +73,16 @@ function Answer() {
   };
 
   // edit function
- const editAnswer = (answer) => {
-   setEditAnswers(answer.answer_id); 
-   setAnswerFiled(answer.answer); 
- };
+  const editAnswer = (answer) => {
+    setEditAnswers(answer.answer_id);
+    setAnswerFiled(answer.answer);
+  };
 
   // enable enter key
 
   const handleEnterKey = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevents default Enter behavior (like adding a newline in the textarea)
+      e.preventDefault(); 
       sendAnswers(e);
     }
   };
@@ -120,9 +121,18 @@ function Answer() {
     setEmoji(false);
   };
 
-//  find title and description
-  const titleDescribtion = questionLists.find((question) => question.question_id === question_id);
+  //  find title and description
+  // const titleDescribtion = questionLists.find((question) => question.question_id === question_id);
 
+  // single questions
+
+  useEffect(() => {
+
+      singleQuestionApi()
+  }, [question_id]);
+
+
+  // get all questions
   useEffect(() => {
     allQuestions();
   }, []);
@@ -140,14 +150,14 @@ function Answer() {
               <span className="me-3 text-dark">
                 <FaCircleArrowRight />
               </span>
-              {titleDescribtion.title}
+
+              {singleQuestion[0]?.title}
             </p>
           }
-          {<p>{titleDescribtion.descrbition}</p>}
 
-          {questionLists.title}
+          <p>{singleQuestion[0]?.descrbition}</p>
         </h6>
-        <p>{questionLists.descrbition}</p>
+
         <hr />
         <div>
           <h3 className="text-center mb-4">Answers from the Community</h3>
@@ -225,7 +235,9 @@ function Answer() {
               </div>
             </div>
 
-            <button type="submit">{editAnswers?'Edit Your Answer':'Post Your Answer'}</button>
+            <button type="submit">
+              {editAnswers ? "Edit Your Answer" : "Post Your Answer"}
+            </button>
           </form>
         </div>
       </div>

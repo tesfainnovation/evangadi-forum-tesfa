@@ -5,16 +5,24 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Link, useParams } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
+import api from "../../axios";
 function Home() {
   const { userDatas, questionDatas, questionLists, userIcon, loading } =
     useContext(contextApi);
     const[search,setSearch]=useState('')
+
+  
  
 
   useEffect(() => {
     questionDatas();
   }, []);
   
+// get asingle questions
+
+
+
+
 
   // search question
 
