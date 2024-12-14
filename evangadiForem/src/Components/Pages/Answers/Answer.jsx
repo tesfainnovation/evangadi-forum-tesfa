@@ -16,6 +16,8 @@ import EmojiPicker from "emoji-picker-react";
 import { MdEmojiEmotions } from "react-icons/md";
 import toast from "react-hot-toast";
 import useSingleQuestion from "../../hooks/singleQuestion";
+import formatTime from "../../formatTime";
+const {formatTimes}=formatTime()
 
 function Answer() {
   const { userDatas, questionLists, userIcon } = useContext(contextApi);
@@ -82,7 +84,7 @@ function Answer() {
 
   const handleEnterKey = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); 
+      e.preventDefault();
       sendAnswers(e);
     }
   };
@@ -127,10 +129,8 @@ function Answer() {
   // single questions
 
   useEffect(() => {
-
-      singleQuestionApi()
+    singleQuestionApi();
   }, [question_id]);
-
 
   // get all questions
   useEffect(() => {
@@ -171,7 +171,13 @@ function Answer() {
                   <div className={css.answers_page}>
                     <div className={css.avater_image}>
                       <h1>{userIcon && <FaUserAlt />}</h1>
-                      <div>{answer.username}</div>
+                    <div className={css.time_format}>
+                      <div className={css.time}>
+                        <p>{answer.username}</p>
+                        <span>{formatTimes(answer.created_at)}</span>
+                      </div>
+                    
+                    </div>
                     </div>
                     <div>
                       <p>{answer.answer}</p>

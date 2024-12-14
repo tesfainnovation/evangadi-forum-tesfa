@@ -6,13 +6,13 @@ import { Link, useParams } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import api from "../../axios";
+import formatTime from "../formatTime";
 function Home() {
   const { userDatas, questionDatas, questionLists, userIcon, loading } =
     useContext(contextApi);
     const[search,setSearch]=useState('')
+    const { formatTimes } = formatTime();
 
-  
- 
 
   useEffect(() => {
     questionDatas();
@@ -41,7 +41,6 @@ function Home() {
           <Link to="/questions">
             <button>Add Questions</button>
           </Link>
-
           {loading ? <p>Loading...</p> : <p>Username: {userDatas?.username}</p>}
         </div>
         <div className="row mb-5" >
@@ -80,7 +79,9 @@ function Home() {
                     </div>
                     <div>{data.title}</div>
                     <div className={style.arrow}>
+
                       <IoIosArrowForward />
+                      <p className={style.time}>{formatTimes(data.created_at)}</p>
                     </div>
                   </div>
                 </Link>

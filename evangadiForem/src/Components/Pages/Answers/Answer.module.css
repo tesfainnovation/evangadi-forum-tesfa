@@ -25,9 +25,7 @@
  overflow-y: scroll;
 }
 .avater_image{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding-left: 20px;
 }
 .avater_image img{
     border-radius: 50%;
@@ -103,4 +101,20 @@
     cursor: pointer;
     font-size: 24px;
     color: rgb(101, 101, 19);
+}
+
+.time{
+    display: flex;
+     margin-left: -25px;
+    justify-content: flex-end;
+    gap: 20px;
+  
+}
+.time span{
+    color: --primary-color;
+    font-size: 12px;
+    margin-top: 4px;
+}
+.time_format{
+    padding-left: 30px;
 }
