@@ -55,7 +55,7 @@ const singleQuestion=async(req,res)=>{
 const allquestions=async(req,res)=>{
   const{username}=req.user
 try {
-  const allquestions = `SELECT Questions.title,  Questions. descrbition ,USER.firstname,Questions.question_id FROM Questions JOIN USER ON  Questions.user_id=USER.user_id`;
+  const allquestions = `SELECT Questions.title,  Questions. descrbition, Questions. created_at ,USER.user_id,USER.firstname,Questions.question_id FROM Questions JOIN USER ON  Questions.user_id=USER.user_id`;
     const [data]=await dbConnecttion.query(allquestions)
     return res.status(StatusCodes.ACCEPTED).json({data})
 } catch (error) {

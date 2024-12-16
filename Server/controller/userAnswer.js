@@ -36,7 +36,7 @@ const answer = async (req, res) => {
 const allAnswers = async (req, res) => {
   // const {username}=req.user
   try {
-    const fetchAllAnswers = `SELECT Questions.title,Questions.descrbition,Answers.user_id,Answers.answer_id,Answers.question_id,USER.username,Answers.answer from Answers JOIN USER on USER.user_id=Answers.user_id JOIN Questions on Answers.question_id=Questions.question_id `;
+    const fetchAllAnswers = `SELECT Questions.title,Questions.descrbition,Answers.user_id,Answers.created_at,Answers.answer_id,Answers.question_id,USER.username,Answers.answer from Answers JOIN USER on USER.user_id=Answers.user_id JOIN Questions on Answers.question_id=Questions.question_id `;
     const [allAnswers] = await dbConnecttion.query(fetchAllAnswers);
     res.status(StatusCodes.ACCEPTED).json({ allAnswers });
   } catch (error) {

@@ -4,13 +4,13 @@ const {
   rejester,
   login,
   checkuser,
-  userInfo,
+  isOnline,
 } = require("../controller/userController");
 const middleware = require("../middleware/auth");
 
 router.post("/rejester", rejester);
 router.post("/login", login);
 router.get("/check", middleware, checkuser);
-router.get("/info", userInfo);
+router.get("/online_status",isOnline);
 
 module.exports = router;

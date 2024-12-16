@@ -17,7 +17,7 @@ const rejester = async (req, res) => {
 
     // same as the above code
     const [users] = await dbConnecttion.query(selectUser, [username, email]);
-    console.log(users)
+    console.log(users);
     if (users.length > 0) {
       return res
         .status(StatusCodes.BAD_REQUEST)
@@ -49,6 +49,13 @@ const rejester = async (req, res) => {
   }
 };
 
+// online status
+
+const onlineStatus = async (user_id) => {
+  const onlineUser = `UPDATE USER SET online=NOW() WHERE user_id=?`;
+  await dbConnecttion.query(onlineUser, [user_id]);
+};
+
 const login = async (req, res) => {
   const { email, pass } = req.body;
   if (!email || !pass) {
@@ -68,6 +75,10 @@ const login = async (req, res) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ msg: "User Not Found" });
     }
+    if (useremail.length > 0) {
+      await onlineStatus(useremail[0].user_id);
+    }
+
     const isMatched = await bcyrpt.compare(pass, useremail[0].password);
     if (!isMatched) {
       return res
@@ -92,13 +103,10 @@ const login = async (req, res) => {
 
 const checkuser = async (req, res) => {
   const { username, id } = req.user;
+
+  await onlineStatus(id);
   res.status(StatusCodes.ACCEPTED).json({ msg: "valid user", username, id });
 };
-
-
-
-
-
 
 const userInfo = async (req, res) => {
   const { email } = req.body;
@@ -115,4 +123,27 @@ const userInfo = async (req, res) => {
   }
 };
 
-module.exports = { rejester, login, checkuser, userInfo };
+// check weather a user is online or offline
+const isOnline = async (req, res) => {
+  try {
+    const selectOnlineUser = `
+      SELECT user_id, 
+             (CASE 
+                WHEN TIMESTAMPDIFF(MINUTE, online, NOW()) <= 1 THEN 'online'
+                ELSE 'offline'
+              END) AS status
+      FROM USER`;
+    const [users] = await dbConnecttion.query(selectOnlineUser);
+
+    res.status(StatusCodes.OK).json({ users });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Internal server error. Try again later!" });
+  }
+};
+
+// ALTER TABLE USER ADD COLUMN online DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+//  ALTER TABLE USER ADD COLUMN CREATED_AT  DEFAULT CURRENT_TIMEST no need for this
+module.exports = { rejester, login, checkuser, userInfo, isOnline };
