@@ -13,7 +13,6 @@
   border: none;
   background-color: var(--button-color);
   padding: 7px 20px;
-
   color: white;
   cursor: pointer;
   opacity: 0.7;
@@ -57,7 +56,17 @@
 
   text-align: center;
  transition: background-color 0.3s ease;
+ position: relative;
  
+}
+.online_status{
+ background-color: green;
+ position: absolute;
+ top: 0;
+ left: 0;
+ border-radius: 50%;
+ width: 20px;
+ height: 20px;
 }
 .questions:hover .avater h1{
  color: white;

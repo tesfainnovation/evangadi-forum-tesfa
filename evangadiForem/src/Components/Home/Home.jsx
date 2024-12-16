@@ -7,32 +7,32 @@ import { FaUserAlt } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import api from "../../axios";
 import formatTime from "../formatTime";
+import isOnline from "../hooks/isOnline";
 function Home() {
   const { userDatas, questionDatas, questionLists, userIcon, loading } =
     useContext(contextApi);
-    const[search,setSearch]=useState('')
-    const { formatTimes } = formatTime();
-
+  const [search, setSearch] = useState("");
+  const { formatTimes } = formatTime();
+  const { checkOnline,online } = isOnline();
 
   useEffect(() => {
     questionDatas();
+    checkOnline();
   }, []);
-  
-// get asingle questions
 
+  // filter online users
+  const onlineusers=online.filter((user)=>user.status==='online')
+                           .map((user)=>user.user_id)
+  console.log(onlineusers)
 
-
-
+  // get asingle questions
 
   // search question
 
-  const searchQuestion = questionLists.filter(question =>
+  const searchQuestion = questionLists.filter((question) =>
     question.title.toLowerCase().includes(search.toLowerCase())
-
-
   );
-
-
+  console.log(searchQuestion)
 
   return (
     <div className={style.home}>
@@ -43,7 +43,7 @@ function Home() {
           </Link>
           {loading ? <p>Loading...</p> : <p>Username: {userDatas?.username}</p>}
         </div>
-        <div className="row mb-5" >
+        <div className="row mb-5">
           <div className="col-md">
             <h4> All Quesions</h4>
           </div>
@@ -57,7 +57,7 @@ function Home() {
               onChange={(e) => setSearch(e.target.value)}
             />
             <button id="search-button" type="button" class="btn btn-primary">
-              <i class="fa fa-search" >
+              <i class="fa fa-search">
                 <CiSearch onClick={searchQuestion} />
               </i>
             </button>
@@ -68,20 +68,29 @@ function Home() {
         <div>
           {questionLists.length > 0 ? (
             searchQuestion.map((data, index) => {
+               const isUserOnline = onlineusers.includes(data.user_id);
               return (
-                <Link to={`/answers/${data.question_id}`}>
+                <Link to={`/answers/${data.question_id}`} key={index}>
                   <div className={style.questions} key={index}>
                     <div className={style.avater}>
                       <div className={style.avater_img}>
-                        <h1>{userIcon && <FaUserAlt />}</h1>
+                        
+                        <h1>
+                          {userIcon && <FaUserAlt />}
+
+                          {isUserOnline && (
+                            <small className={style.online_status}></small>
+                          )}
+                        </h1>
                       </div>
                       <div>{data.firstname}</div>
                     </div>
                     <div>{data.title}</div>
                     <div className={style.arrow}>
-
                       <IoIosArrowForward />
-                      <p className={style.time}>{formatTimes(data.created_at)}</p>
+                      <p className={style.time}>
+                        {formatTimes(data.created_at)}
+                      </p>
                     </div>
                   </div>
                 </Link>
