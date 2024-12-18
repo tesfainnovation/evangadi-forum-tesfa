@@ -13,7 +13,7 @@ function Home() {
     useContext(contextApi);
   const [search, setSearch] = useState("");
   const { formatTimes } = formatTime();
-  const { checkOnline,online } = isOnline();
+  const { checkOnline, online } = isOnline();
 
   useEffect(() => {
     questionDatas();
@@ -21,9 +21,10 @@ function Home() {
   }, []);
 
   // filter online users
-  const onlineusers=online.filter((user)=>user.status==='online')
-                           .map((user)=>user.user_id)
-  console.log(onlineusers)
+  const onlineusers = online
+    .filter((user) => user.status === "online")
+    .map((user) => user.user_id);
+  console.log(onlineusers);
 
   // get asingle questions
 
@@ -32,7 +33,7 @@ function Home() {
   const searchQuestion = questionLists.filter((question) =>
     question.title.toLowerCase().includes(search.toLowerCase())
   );
-  console.log(searchQuestion)
+  console.log(searchQuestion);
 
   return (
     <div className={style.home}>
@@ -65,16 +66,15 @@ function Home() {
         </div>
 
         <hr />
-        <div>
+        <div className={style.all_answer_lists}>
           {questionLists.length > 0 ? (
             searchQuestion.map((data, index) => {
-               const isUserOnline = onlineusers.includes(data.user_id);
+              const isUserOnline = onlineusers.includes(data.user_id);
               return (
                 <Link to={`/answers/${data.question_id}`} key={index}>
                   <div className={style.questions} key={index}>
                     <div className={style.avater}>
                       <div className={style.avater_img}>
-                        
                         <h1>
                           {userIcon && <FaUserAlt />}
 
@@ -83,9 +83,9 @@ function Home() {
                           )}
                         </h1>
                       </div>
-                      <div>{data.firstname}</div>
+                      <div className={style.user_name}>{data.firstname}</div>
                     </div>
-                    <div>{data.title}</div>
+                    <div className={style.titles}>{data.title}</div>
                     <div className={style.arrow}>
                       <IoIosArrowForward />
                       <p className={style.time}>

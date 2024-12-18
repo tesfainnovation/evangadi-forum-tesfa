@@ -168,7 +168,7 @@ export default function Signin({ title }) {
             </div>
           </div>
           <div className={`col-md ${styles.right}`}>
-            <p style={{ color: "#FE8402" }}>About</p>
+            <p style={{ color: "#FE8402", marginTop:'20px'}} >About</p>
             <h1>Evangadi Networks</h1>
             <p>
               No matter what stage of life you are in, whether you’re just

@@ -140,10 +140,13 @@ function Answer() {
   return (
     <div className={css.answer_wrapper}>
       <div className={css.answer_container}>
+        <div className={css.answer_username}>
+
         <h4>Questions</h4>
         <p className={css.answer_user}>
           Username: <span>{userDatas.username}</span>
         </p>
+        </div>
         <h6>
           {
             <p>
