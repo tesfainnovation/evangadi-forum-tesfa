@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import api from '../../axios';
 
 function useSingleQuestion() {
-    const [singleQuestion, setSingleQuestion] = React.useState([]);
+    const [singleQuestion, setSingleQuestion] = useState([]);
  const{question_id}=useParams()
  
 const singleQuestionApi = async () => {

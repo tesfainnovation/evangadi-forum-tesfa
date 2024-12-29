@@ -12,7 +12,7 @@ export default function useLogin() {
   const { handleCheck}=useContext(contextApi)
 
   const navigate = useNavigate();
-
+  const[loading,setLoading]=useState(false)
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !pass) {
@@ -21,6 +21,7 @@ export default function useLogin() {
       return;
     }
     try {
+      setLoading(true)
       const { data } = await api.post("/user/login", {
         email: email,
         pass: pass,
@@ -35,6 +36,9 @@ export default function useLogin() {
       setColor("red");
       setText(error?.response?.data.msg || "An error occurred");
     }
+    finally{
+      setLoading(false)
+    }
   };
 
   return {
@@ -45,5 +49,6 @@ export default function useLogin() {
     color,
     text,
     handleLogin,
+    loading
   };
 }

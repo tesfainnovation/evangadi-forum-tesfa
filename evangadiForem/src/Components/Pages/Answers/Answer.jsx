@@ -17,26 +17,30 @@ import { MdEmojiEmotions } from "react-icons/md";
 import toast from "react-hot-toast";
 import useSingleQuestion from "../../hooks/singleQuestion";
 import formatTime from "../../formatTime";
-const {formatTimes}=formatTime()
+const { formatTimes } = formatTime();
 
 function Answer() {
   const { userDatas, questionLists, userIcon } = useContext(contextApi);
   const [emoji, setEmoji] = useState(false);
-  const { answers, like, title, setLike, allQuestions } = useAnswers();
+  const { answers, like, setLike, allQuestions } = useAnswers();
   const [editAnswers, setEditAnswers] = useState("");
   const [answerFiled, setAnswerFiled] = useState("");
   const { question_id } = useParams();
+  const [errColor, setErrorColor] = useState("white");
   const { singleQuestion, singleQuestionApi } = useSingleQuestion();
+  const[loading,setLoading]=useState(false)
 
   const sendAnswers = async (e) => {
     e.preventDefault();
 
     if (!answerFiled) {
+      setErrorColor("red");
       toast.error("All fields are required!");
       return;
     }
 
     try {
+      setLoading(true)
       const token = localStorage.getItem("token");
       if (editAnswers) {
         await api.put(
@@ -52,7 +56,7 @@ function Answer() {
         );
         toast.success("Answer updated successfully!");
       } else {
-        // Add a new answer
+         setLoading(true)
         await api.post(
           `/answers/${question_id}`,
           { answer: answerFiled },
@@ -71,6 +75,9 @@ function Answer() {
     } catch (error) {
       console.log(error);
       toast.error("An error occurred while saving the answer!");
+    } finally {
+      setErrorColor("");
+      setLoading(false)
     }
   };
 
@@ -116,11 +123,8 @@ function Answer() {
   // emoji
 
   const hadleEmojies = (e) => {
-    console.log(e.emoji);
+    console.log(e);
     setAnswerFiled([answerFiled, e.emoji].join(""));
-  };
-  const removeEmoji = () => {
-    setEmoji(false);
   };
 
   //  find title and description
@@ -141,11 +145,10 @@ function Answer() {
     <div className={css.answer_wrapper}>
       <div className={css.answer_container}>
         <div className={css.answer_username}>
-
-        <h4>Questions</h4>
-        <p className={css.answer_user}>
-          Username: <span>{userDatas.username}</span>
-        </p>
+          <h4>Questions</h4>
+          <p className={css.answer_user}>
+            Username: <span>{userDatas.username}</span>
+          </p>
         </div>
         <h6>
           {
@@ -174,13 +177,12 @@ function Answer() {
                   <div className={css.answers_page}>
                     <div className={css.avater_image}>
                       <h1>{userIcon && <FaUserAlt />}</h1>
-                    <div className={css.time_format}>
-                      <div className={css.time}>
-                        <p>{answer.username}</p>
-                        <span>{formatTimes(answer.created_at)}</span>
+                      <div className={css.time_format}>
+                        <div className={css.time}>
+                          <p>{answer.username}</p>
+                          <span>{formatTimes(answer.created_at)}</span>
+                        </div>
                       </div>
-                    
-                    </div>
                     </div>
                     <div>
                       <p>{answer.answer}</p>
@@ -216,7 +218,11 @@ function Answer() {
               );
             })
           ) : (
-            <h4 className={css.no_answer}>No Answer yet !!</h4>
+            <h4 className={css.no_answer}>
+              No answers yet!
+              <br />
+              Be the first to share your thoughts and help the community.
+            </h4>
           )}
         </div>
 
@@ -232,7 +238,8 @@ function Answer() {
               value={answerFiled}
               onChange={(e) => setAnswerFiled(e.target.value)}
               onKeyDown={handleEnterKey}
-              onClick={removeEmoji}
+              onClick={() => setEmoji(false)}
+              style={{ border: `2px solid ${errColor}` }}
             ></textarea>
 
             <div className={css.emoji}>
@@ -245,7 +252,7 @@ function Answer() {
             </div>
 
             <button type="submit">
-              {editAnswers ? "Edit Your Answer" : "Post Your Answer"}
+            {loading?'posting answers...':editAnswers ? "Edit Your Answer" : "Post Your Answer"}
             </button>
           </form>
         </div>
@@ -255,3 +262,19 @@ function Answer() {
 }
 
 export default Answer;
+
+// ALTER TABLE Answers DROP FOREIGN KEY answers_ibfk_2;
+
+// ALTER TABLE Answers
+//   CONVERT TO CHARACTER SET utf8mb4
+//   COLLATE utf8mb4_unicode_ci;
+
+// ALTER TABLE Answers
+//   ADD CONSTRAINT answers_ibfk_2
+//   FOREIGN KEY (question_id) REFERENCES Questions(question_id);
+
+// finally
+// ALTER TABLE Answers
+// MODIFY question_id VARCHAR(200)
+// CHARACTER SET utf8mb4
+// COLLATE utf8mb4_unicode_ci;

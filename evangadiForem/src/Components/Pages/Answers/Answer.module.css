@@ -1,6 +1,6 @@
-
-
-
+body {
+  font-family: Arial, sans-serif;
+}
 .answer_container {
   width: 80%;
   margin: 60px auto;
@@ -9,17 +9,17 @@
 .answers_page {
   display: flex;
   gap: 20px;
-  align-items: flex-start; 
+  align-items: center; 
   margin-bottom: 20px;
-  border-bottom: 1px solid black;
+  
   justify-content: space-between;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
   padding: 10px;
   background-color: #f9f9f9;
 }
 
 .all_answer_list {
-  height: 300px;
+  height: 350px;
   overflow-y: scroll;
   padding: 10px;
 }
@@ -62,10 +62,13 @@
   align-items: center;
   gap: 5px;
   font-size: 12px;
+
 }
 
 
-
+.answer_user span{
+  color: #FE8402;
+}
 .edit_icons {
   display: flex;
   flex-direction: row;
@@ -78,11 +81,11 @@
   cursor: pointer;
 }
 
-.edit_icons span:hover {
+.edit_icons span {
   color: blue;
 }
 
-.edit_icons span:last-child:hover {
+.edit_icons span:last-child{
   color: red;
 }
 
@@ -96,8 +99,11 @@
 .answer_form textarea {
   width: 100%;
   resize: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
   padding: 10px;
+  border: none;
+  margin-top: 60px;
+
 }
 
 .emoji {
@@ -106,18 +112,27 @@
   right: 20px;
   cursor: pointer;
   font-size: 24px;
-  color: rgb(101, 101, 19);
+  color:  #FE8402;
+  font-weight: 900;
+  z-index: 1000;
 }
 
 .no_answer {
   text-align: center;
   margin-top: 100px;
-  text-decoration: underline;
-  text-decoration-color: red;
+  /* text-decoration: underline; */
+  /* text-decoration-color: red; */
   text-underline-offset: 5px;
+  line-height: 1.5;
+  
+}
+.no_answer span{
+  color: #FE8402;
+  font-weight: 700;
+  margin-top: 10px;
 }
 .answer_form button{
-          border: none;
+    border: none;
   background-color: var(--button-color);
   padding: 7px 20px;
   color: white;
@@ -125,14 +140,14 @@
   opacity: 0.7;
   margin-top: 20px;
 }
-.answer_form textarea{
-    box-shadow: 0px 0px 10px rgba(0,0,0,.6);
-    margin-top: 10px;
-}
+
 .answer_username{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.username span {
+    color: #FE8402;
 }
 
 @media (max-width: 768px) {

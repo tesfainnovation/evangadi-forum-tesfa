@@ -23,7 +23,7 @@ export default function Signin({ title }) {
     setLogin((prev) => !prev);
     setIsClicked((prev) => !prev);
   };
-  const { email, setEmail, pass, setPass, color, text, handleLogin } =
+  const { email, setEmail, pass, setPass, color, text, handleLogin, loading } =
     useLogin();
 
   const handeleCreateAccount = async (e) => {
@@ -154,21 +154,25 @@ export default function Signin({ title }) {
                     {showpass ? <FaEye /> : <FaEyeSlash />}
                   </div>
                 </div>
-                < div className="mt-3">
-                <small className={styles.forgot_pass} mt-5>Forgot Password?</small>
-                
+                <div className="mt-3">
+                  <small className={styles.forgot_pass} mt-5>
+                    Forgot Password?
+                  </small>
                 </div>
-                
 
                 <br />
                 <button type="submit" className={styles.signin_btn}>
-                  {login ? "Login" : "Agree & Join"}
+                  {loading
+                    ? "please wait..."
+                    : login
+                    ? "Login"
+                    : "Agree & Join"}
                 </button>
               </form>
             </div>
           </div>
           <div className={`col-md ${styles.right}`}>
-            <p style={{ color: "#FE8402", marginTop:'20px'}} >About</p>
+            <p style={{ color: "#FE8402", marginTop: "20px" }}>About</p>
             <h1>Evangadi Networks</h1>
             <p>
               No matter what stage of life you are in, whether you’re just
@@ -182,7 +186,10 @@ export default function Signin({ title }) {
               looking to meet mentors of your own, please start by joining the
               network here.
             </p>
-            <button className={`${styles.account_btn}`}>How It Works</button>
+
+            <a href="https://www.evangadi.com/" target="_blank">
+              <button className={`${styles.account_btn}`}>How It Works</button>
+            </a>
           </div>
         </div>
       </div>

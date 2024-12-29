@@ -2,11 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    text-decoration: none;
+    text-decoration: none !important;
     /* list-style: none; */
     scroll-behavior: smooth;
 }
-
+a{
+    color:white 
+}
 body{
     background: url('./assets/images/bg.svg');
     background-repeat: no-repeat;

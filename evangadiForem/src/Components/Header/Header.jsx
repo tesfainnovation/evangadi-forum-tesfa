@@ -18,7 +18,7 @@ const handleLogout=()=>{
       <div className={styles.header_container}>
         <div className={styles.header_logo}>
           <Link to={token && `/home`}>
-          <img src={logo} alt="logo" width={"180px"} />
+            <img src={logo} alt="logo" width={"180px"} />
           </Link>
         </div>
         <div className={styles.left_menu}>
@@ -27,13 +27,14 @@ const handleLogout=()=>{
               <Link to="/home">Home</Link>
             </li>
             <li className={styles.how}>
-              <Link to="#">How it works</Link>
+              <Link to="https://www.evangadi.com/">How it works</Link>
             </li>
-        
-              <li onClick={handleLogout}>
-                <button className={styles.logout}>{token?'Logout':'SignUp'}</button>
-              </li>
-          
+
+            <li onClick={handleLogout}>
+              <button className={styles.logout}>
+                {token ? "Logout" : "SignUp"}
+              </button>
+            </li>
           </ul>
         </div>
       </div>

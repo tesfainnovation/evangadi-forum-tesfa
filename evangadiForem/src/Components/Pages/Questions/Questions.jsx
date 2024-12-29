@@ -3,7 +3,7 @@ import styles from "./Questions.module.css";
 import useAddQuestions from "../../hooks/useAddQuestions";
 
 function Questions() {
-const { title, setTitle, desc, setDesc,err, addQuestions}=useAddQuestions()
+const { title, setTitle, desc, setDesc,err, addQuestions,loading}=useAddQuestions()
 
 
 
@@ -57,7 +57,7 @@ const { title, setTitle, desc, setDesc,err, addQuestions}=useAddQuestions()
               ></textarea>
             </div>
 
-            <button type="submit">Submit</button>
+            <button type="submit">{loading?'sending...':'Submit'}</button>
           </form>
         </div>
       </div>
