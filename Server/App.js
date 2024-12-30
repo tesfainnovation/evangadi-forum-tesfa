@@ -16,7 +16,7 @@ app.get("/user", (req, res) => {
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(25) NOT NULL,
   firstname VARCHAR(25) NOT NULL,
-  lastname VARCHAR(25) NOT NULL,
+  lastname VARCHAR(25) NOT NULL, 
   emial VARCHAR(25) NOT NULL,
   password VARCHAR(100) NOT NULL
   

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: my-app-server
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node App.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        value: localhost
+      - key: DB_USER
+        value: evangadiForm
+      - key: DB_PASSWORD
+        value: Tom@21ggg
+      - key: JWT_SECRET
+        value: gdRr99Lf8cJxUNJ2Wg9YpWgysQD6G6qH98HDCBXNKWQKE

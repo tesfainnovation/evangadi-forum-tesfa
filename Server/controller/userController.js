@@ -129,7 +129,7 @@ const isOnline = async (req, res) => {
     const selectOnlineUser = `
       SELECT user_id, 
              (CASE 
-                WHEN TIMESTAMPDIFF(MINUTE, online, NOW()) <= 1 THEN 'online'
+                WHEN TIMESTAMPDIFF(MINUTE, online, NOW()) <= 5 THEN 'online'
                 ELSE 'offline'
               END) AS status
       FROM USER`;
@@ -146,4 +146,9 @@ const isOnline = async (req, res) => {
 
 // ALTER TABLE USER ADD COLUMN online DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 //  ALTER TABLE USER ADD COLUMN CREATED_AT  DEFAULT CURRENT_TIMEST no need for this
-module.exports = { rejester, login, checkuser, userInfo, isOnline };
+
+
+// ALTER TABLE `USER`
+// ADD COLUMN online DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+module.exports = { rejester, login, checkuser, userInfo, isOnline,onlineStatus };
