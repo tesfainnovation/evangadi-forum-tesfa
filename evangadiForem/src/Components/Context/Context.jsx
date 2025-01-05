@@ -9,6 +9,7 @@ function Context({ children }) {
    const [questionLists, setQuestionLists] = useState([]);
     const [userIcon, setUserIcon] = useState(true);
     const [loading,setLoading]=useState(true)
+    const [load,setLoad]=useState(false)
   const handleCheck = async () => {
     try {
       const { data } = await api.get("user/check", {
@@ -17,10 +18,10 @@ function Context({ children }) {
         },
       });
       setUserDatas(data);
-      // console.log(data);
+ 
       setLoading(false)
     } catch (error) {
-      console.log(error);
+
       setLoading(false)
       navigate("/");
     }
@@ -28,7 +29,7 @@ function Context({ children }) {
 
   useEffect(() => {
     handleCheck();
-    // console.log(userDatas)
+  
   }, []);
 
 
@@ -38,17 +39,22 @@ function Context({ children }) {
 
   // question title and disc
   const questionDatas = async () => {
+
     try {
+      setLoad(true)
       const token = localStorage.getItem("token");
       const allQuestions = await api.get("/question/allquestions", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(allQuestions.data.data);
+  
       setQuestionLists(allQuestions.data.data.reverse());
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setLoad(false)
     }
   };
 
@@ -61,6 +67,7 @@ function Context({ children }) {
     userIcon,
     loading,
     handleCheck,
+    load
   };
   return (
     <div>

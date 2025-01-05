@@ -1,20 +1,19 @@
-
 .home_conatiner {
   width: 80%;
   margin: 40px auto;
   padding-bottom: 200px;
 }
-.all_answer_lists{
+
+.all_answer_lists {
   height: 90vh;
   overflow-y: scroll;
-
 }
-
 
 .home_conatiner .addquestions_btn {
   display: flex;
   justify-content: space-between;
 }
+
 .addquestions_btn button {
   border: none;
   background-color: var(--button-color);
@@ -24,122 +23,150 @@
   opacity: 0.7;
   margin-bottom: 40px;
 }
+
 .left_menu ul button:hover {
   opacity: 1;
 }
+
 .questions {
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: background-color 0.3s ease;
-
-   box-shadow: 0px 0px 1px rgba(0,0,0,.5);
+  box-shadow: 0px 5px 3px rgba(203, 203, 200, 0.5);
   padding: 10px 20px;
 }
+
 .questions:hover {
   background-color: #deebf9;
   cursor: pointer;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
-}
-.arrow {
-  transition: transform 0.3s ease; 
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
 }
 
-.questions:hover .arrow{
- transform: translateX(10px);
+.arrow {
+  transition: transform 0.3s ease;
+  color: black;
+  width: 140px;
 }
+
+.questions:hover .arrow {
+  transform: translateX(10px);
+}
+
 .questions .avater {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .avater h1 {
   border-radius: 50%;
   border: 2px solid gray;
   color: black;
-   width: 70px;
-   height: 70px;
-
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
- transition: background-color 0.3s ease;
- position: relative;
- 
-}
-.online_status{
- background-color: green;
- position: absolute;
- top: 0;
- left: 0;
- border-radius: 50%;
- width: 15px;
- height: 15px;
-}
-.questions:hover .avater h1{
- color: white;
- background-color: #1e293b
-}
-.arrow{
-    font-weight: 900;
-    cursor: pointer;
-    font-size: 28px;
+  transition: background-color 0.3s ease;
+  position: relative;
 }
 
+.online_status {
+  background-color: green;
+  position: absolute;
+  top: 0;
+  left: 50px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+}
 
+.questions:hover .avater h1 {
+  color: white;
+  background-color: #1e293b;
+}
 
+.arrow {
+  font-weight: 900;
+  cursor: pointer;
+  font-size: 24px;
+}
 
-.search_input{
- 
-  border-bottom: 3px solid transparent; 
+.search_input {
+  border-bottom: 3px solid transparent;
   border: none;
   background: linear-gradient(to right, #FE8402 0%, #FE8402 100%);
-  background-size: 0% 3px; 
+  background-size: 0% 3px;
   background-repeat: no-repeat;
-  background-position: left bottom; 
+  background-position: left bottom;
   transition: background-size .5s ease-in;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
   position: relative;
 }
 
 .search_input:focus {
-  background-size: 100% 3px; 
-   box-shadow: none ;
+  background-size: 100% 3px;
+  box-shadow: none;
 }
-.time{
+
+.time {
   font-size: 12px;
-  color:  #FE8402
+  color: #FE8402;
+  margin-left: 10px;
 }
-.user_name,.titles{
+
+.user_name,
+.titles {
   text-decoration: none !important;
   color: black;
 }
+
 .all_answer_lists::-webkit-scrollbar {
   width: 7px;
 }
 
+.home_loading,
+.no_questions {
+  text-align: center;
+  color: #FE8402;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
 
 .all_answer_lists::-webkit-scrollbar-thumb {
-  background: #FE8402
+  background: #FE8402;
 }
 
+@media (max-width: 669px) {
+  .questions {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    justify-content: center;
+  }
 
+  .arrow_icon {
+    display: none;
+  }
 
-@media(max-width:669px){
-.questions {
- flex-direction: column;
-  align-items: center;
+  .user_name {
+    color: #FE8402;
+  }
+.arrow {
 
-  padding: 10px 20px;
+  width: 100%;
+  float: right;
+  text-align: right;
 }
-.arrow{
-  display: none;
-}
-.user_name{
-  color: #FE8402;
-}
-.home_conatiner {
-  width: 90%;
-  margin: 40px auto;
-  padding-bottom: 0px;
-}
+  .home_conatiner {
+    width: 90%;
+    margin: 40px auto;
+    padding-bottom: 0px;
+  }
 }

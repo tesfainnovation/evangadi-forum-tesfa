@@ -23,8 +23,18 @@ export default function Signin({ title }) {
     setLogin((prev) => !prev);
     setIsClicked((prev) => !prev);
   };
-  const { email, setEmail, pass, setPass, color, text, handleLogin, loading } =
-    useLogin();
+  const {
+    email,
+    setEmail,
+    pass,
+    setPass,
+    color,
+    text,
+    handleLogin,
+    setLoading,
+    loading,
+    setText
+  } = useLogin();
 
   const handeleCreateAccount = async (e) => {
     e.preventDefault(e);
@@ -35,6 +45,7 @@ export default function Signin({ title }) {
     }
 
     try {
+       setLoading(true)
       await api.post("/user/rejester", {
         username: user,
         fname: fname,
@@ -42,13 +53,17 @@ export default function Signin({ title }) {
         email: email,
         pass: pass,
       });
-
-      toast.success("Succesfully login");
       setLogin(true);
       setPass("");
+      setEmail('')
+      setText('')
+      setErrColor("");
     } catch (error) {
       setErrColor("red");
-      setErrorText(error?.response?.data.msg);
+      setErrorText(error?.response?.data.msg || "An error occurred try it again");
+    }
+    finally{
+      setLoading(false)
     }
   };
 

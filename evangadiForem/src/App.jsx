@@ -11,10 +11,11 @@ import Questions from "./Components/Pages/Questions/Questions";
 import Answer from "./Components/Pages/Answers/Answer";
 import { useContext } from "react";
 import { contextApi } from "./Components/Context/Context";
+import Top from "./Components/Top/Top";
 
 function App() {
   const { token } = useContext(contextApi);
-  console.log(token);
+
   return (
     <>
       <Header />
@@ -29,7 +30,7 @@ function App() {
       </Routes>
       <ToastContainer />
       <Toaster position="top-right" />
-
+     {/* <Top/> */}
       <Footer />
     </>
   );

@@ -1,23 +1,26 @@
-import React, { useContext } from 'react'
-import styles from './Header.module.css'
-import logo from '../../assets/images/logo.png'
-import {Link, useNavigate} from 'react-router-dom'
-import { contextApi } from '../Context/Context'
+import React, { useContext } from "react";
+import styles from "./Header.module.css";
+import logo from "../../assets/images/logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import { contextApi } from "../Context/Context";
 
 function Header() {
-const navigate=useNavigate()
-const { userDatas, setUserDatas,token } = useContext(contextApi);
-const handleLogout=()=>{
-    localStorage.removeItem('token')
-    setUserDatas({})
-    navigate('/')
-}
-
+  const navigate = useNavigate();
+  const { userDatas, setUserDatas, token } = useContext(contextApi);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUserDatas({});
+    window.scrollTo(0, 0);
+    navigate("/");
+  };
+  const toTop = () => {
+    window.scrollTo(0, 0);
+  };
   return (
     <div className={styles.header_wrapper}>
       <div className={styles.header_container}>
         <div className={styles.header_logo}>
-          <Link to={token && `/home`}>
+          <Link to={token && `/home`} onClick={toTop}>
             <img src={logo} alt="logo" width={"180px"} />
           </Link>
         </div>
@@ -27,7 +30,9 @@ const handleLogout=()=>{
               <Link to="/home">Home</Link>
             </li>
             <li className={styles.how}>
-              <Link to="https://www.evangadi.com/">How it works</Link>
+              <a href="https://www.evangadi.com/" target="_blank">
+                How it works
+              </a>
             </li>
 
             <li onClick={handleLogout}>
@@ -42,4 +47,4 @@ const handleLogout=()=>{
   );
 }
 
-export default Header
+export default Header;

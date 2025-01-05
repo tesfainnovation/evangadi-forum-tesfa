@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import api from "../../axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { contextApi } from "../Context/Context";
 
@@ -9,10 +9,10 @@ export default function useLogin() {
   const [pass, setPass] = useState("");
   const [color, setColor] = useState("gray");
   const [text, setText] = useState("");
-  const { handleCheck}=useContext(contextApi)
+  const { handleCheck } = useContext(contextApi);
 
   const navigate = useNavigate();
-  const[loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !pass) {
@@ -21,7 +21,7 @@ export default function useLogin() {
       return;
     }
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await api.post("/user/login", {
         email: email,
         pass: pass,
@@ -29,15 +29,14 @@ export default function useLogin() {
       toast.success("Successfully Logged In");
       localStorage.setItem("token", data.token);
       console.log(data);
-      
+
       navigate("/home");
       window.location.reload();
     } catch (error) {
       setColor("red");
-      setText(error?.response?.data.msg || "An error occurred");
-    }
-    finally{
-      setLoading(false)
+      setText(error?.response?.data.msg || "An error occurred try it again");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,6 +48,8 @@ export default function useLogin() {
     color,
     text,
     handleLogin,
-    loading
+    loading,
+    setLoading,
+    setText
   };
 }

@@ -11,6 +11,12 @@
 
    
 }
+.left_menu{
+    margin-top: 10px;
+}
+.left_menu li a{
+    color:#FE8402;
+}
 .header_container{
     display: flex;
     justify-content: space-between;
@@ -57,3 +63,6 @@
     }
   
 }
+
+
+

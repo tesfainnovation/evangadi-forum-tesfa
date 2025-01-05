@@ -1,41 +1,120 @@
-.footer_wrapper{
-    background-color: #3B455A;
-    color: white;
-    padding: 40px 10px;
-  
-    
-}
-.footer_container{
-    width: 90%;
-    margin: 20px auto;
-    padding: 10px;
-}
-.footer_icon{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+.footer_wrapper {
+  background-color: #3B455A;
+  color: white;
+  padding: 40px 10px;
 }
 
-.icons{
+.footer_container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.footer_icon {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  text-align: center;
+}
+
+.icons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.icons a {
+  color: white;
+  font-size: 17px;
+  border-radius: 50%;
+  border: 1px solid white;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icons a:hover {
+  background-color: white;
+  color: #3B455A;
+}
+
+.footer_wrapper a {
+  text-decoration: none;
+  color: white;
+}
+
+.footer_wrapper a:hover {
+  color: var(--primary-color);
+}
+
+.terms,
+.contact_info {
+  color: white;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.terms a,
+.contact_info a {
+  color: white;
+}
+
+.terms h3,
+.contact_info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer_container {
     display: flex;
-    gap: 30px;
-}
-.icons a{
-    color: white;
-    font-size: 17px;
-    border-radius: 50%;
-    border: 1px solid white;
-    width: 30px;
-    height: 30px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer_icon {
     text-align: center;
+    gap: 15px;
+  }
+
+  .icons {
+    gap: 15px;
+  }
+
+  .footer_container .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .terms,
+  .contact_info {
+    margin: 10px 0;
+  }
 }
-.icons a:hover{
-    background-color: var(--primary-color);
-}
-.footer_wrapper a{
-    text-decoration: none;
-    color: white;
-}
-.footer_wrapper a:hover{
-    color: var(--primary-color);
+
+@media (max-width: 480px) {
+  .footer_wrapper {
+    padding: 30px 10px;
+  }
+
+  .footer_icon {
+    gap: 20px;
+  }
+
+  .footer_container {
+    width: 95%;
+  }
+
+  .icons a {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+  }
 }

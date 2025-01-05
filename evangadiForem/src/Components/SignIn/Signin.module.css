@@ -116,3 +116,11 @@ span{
     opacity: 1;
    }
 }
+
+
+@media(max-width :769px){
+.right{
+    /* background-color: red; */
+    margin: 0 auto;
+}
+}

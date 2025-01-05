@@ -18,17 +18,21 @@ import toast from "react-hot-toast";
 import useSingleQuestion from "../../hooks/singleQuestion";
 import formatTime from "../../formatTime";
 const { formatTimes } = formatTime();
+import {ClipLoader} from 'react-spinners'
 
 function Answer() {
   const { userDatas, questionLists, userIcon } = useContext(contextApi);
   const [emoji, setEmoji] = useState(false);
-  const { answers, like, setLike, allQuestions } = useAnswers();
+  const { answers, like, setLike, allQuestions,loader } = useAnswers();
   const [editAnswers, setEditAnswers] = useState("");
   const [answerFiled, setAnswerFiled] = useState("");
   const { question_id } = useParams();
   const [errColor, setErrorColor] = useState("white");
   const { singleQuestion, singleQuestionApi } = useSingleQuestion();
   const[loading,setLoading]=useState(false)
+  const [deletLoading,setDeleteLoading]=useState({})
+  
+
 
   const sendAnswers = async (e) => {
     e.preventDefault();
@@ -55,6 +59,7 @@ function Answer() {
           }
         );
         toast.success("Answer updated successfully!");
+        window.scrollTo(0, 0);
       } else {
          setLoading(true)
         await api.post(
@@ -67,6 +72,7 @@ function Answer() {
           }
         );
         toast.success("Answer posted successfully!");
+        window.scrollTo(0, 0);
       }
 
       allQuestions();
@@ -107,6 +113,7 @@ function Answer() {
   const deleteAnswer = async (answer_id) => {
     const token = localStorage.getItem("token");
     try {
+   setDeleteLoading((prev) => ({ ...prev, [answer_id]: true }));
       await api.delete(`/delete/${answer_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,9 +121,13 @@ function Answer() {
       });
       toast.success("answer deleted");
       allQuestions();
+
     } catch (error) {
       console.log(error);
       toast.error("failed to delete the answer");
+    }
+    finally{
+      setDeleteLoading((prev) => ({ ...prev, [answer_id]: false }));
     }
   };
 
@@ -169,6 +180,8 @@ function Answer() {
           <h3 className="text-center mb-4">Answers from the Community</h3>
           <hr />
         </div>
+        {
+          loader?<h3 className={css.answer_loader}><ClipLoader /></h3>:
         <div className={css.all_answer_list}>
           {answers.length > 0 ? (
             answers?.map((answer, index) => {
@@ -207,9 +220,14 @@ function Answer() {
                       </span>
                       {userDatas.id === answer.user_id && (
                         <span>
+                        {
+                        deletLoading[answer.answer_id]?<ClipLoader size={12}/>:
                           <MdDelete
                             onClick={() => deleteAnswer(answer.answer_id)}
                           />
+
+
+                        }
                         </span>
                       )}
                     </div>
@@ -225,6 +243,8 @@ function Answer() {
             </h4>
           )}
         </div>
+
+        }
 
         <div className={css.answer_form}>
           <h4 className="text-center mb-5">Answer The Top Questions</h4>
